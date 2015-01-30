@@ -1,5 +1,5 @@
 package com.architecture.model;
 
-public class IndexRegister {
+public class IndexRegister extends Register {
 
 }
