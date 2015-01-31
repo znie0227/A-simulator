@@ -46,46 +46,46 @@ public class MainView extends JPanel{
              JPanel p6=new JPanel();       // Record Panel
              JPanel p61=new JPanel();
              
-              p1.setSize(300,250);            
-              p11.setSize(250,200);
-              p11.setLocation(25, 25);
-              p11.setBorder(BorderFactory.createTitledBorder("Register"));
-              p1.add(p11);
+              p1.setSize(300,250);  
+              p1.setBorder(BorderFactory.createTitledBorder("Register"));
+              
               
               p2.setSize(300,250);
               p2.setLocation(300, 0);
-              p21.setSize(250,200);
-              p21.setLocation(325, 25);
-              p21.setBorder(BorderFactory.createTitledBorder("Input"));
-              p2.add(p21);
+              
+              p2.setBorder(BorderFactory.createTitledBorder("Input"));
+          
               
               
               p3.setSize(250,200);
               p3.setLocation(0, 250);
-              p31.setSize(200,150);
-              p31.setLocation(25, 275);
-              p31.setBorder(BorderFactory.createTitledBorder("Memory"));
-              p3.add(p31);
+             
+              p3.setBorder(BorderFactory.createTitledBorder("Memory"));
+          
               
               p4.setSize(350,200);
               p4.setLocation(250, 250);
-              p41.setSize(300,150);
-              p41.setLocation(275, 275);
-              p41.setBorder(BorderFactory.createTitledBorder("Cache"));
-              p4.add(p41);
+              
+              p4.setBorder(BorderFactory.createTitledBorder("Cache"));
+              
               
               p5.setSize(200,700);
               p5.setLocation(600,0);
-              p51.setSize(150,650);
-              p51.setLocation(625, 25);
-              p51.setBorder(BorderFactory.createTitledBorder("Console"));
-              p5.add(p51);
+             
+              p5.setBorder(BorderFactory.createTitledBorder("Record"));
+              
+              p6.setSize(600,200);
+              p6.setLocation(0,450);
+             
+              p6.setBorder(BorderFactory.createTitledBorder("Console"));
+              
               
               f.getContentPane().add(p1); 
               f.getContentPane().add(p2);
-              f.getContentPane().add(p3);
+             f.getContentPane().add(p3);
               f.getContentPane().add(p4);
               f.getContentPane().add(p5);
+              f.getContentPane().add(p6);
              
 
      }
