@@ -49,4 +49,8 @@ public class Main {
 		registerMap.put(name, new Register(name, new int[size], size));
 		registerList.add(name);
 	}
+	
+	public static Register getRegisterByName(String name){
+		return registerMap.get(name);
+	}
 }

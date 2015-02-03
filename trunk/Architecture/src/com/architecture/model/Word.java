@@ -10,6 +10,10 @@ public class Word {
 		data = new int[Config.WORD_SIZE];
 	}
 
+	public Word(Word w) {
+		data = w.getData().clone();
+	}
+
 	public Word(int[] data) {
 		this.data = new int[Config.WORD_SIZE];
 		this.setValue(data);
@@ -18,6 +22,14 @@ public class Word {
 	public int[] getData() {
 		return data;
 	}
+	public String getDataInString() {
+		StringBuffer sb = new StringBuffer();
+		for (int i=0;i<Config.WORD_SIZE;i++)
+		{
+			sb.append(data[i]);
+		}
+		return sb.toString();
+	}
 
 	public void setValue(int[] data) {
 		for (int i = 0; i < Config.WORD_SIZE; i++) {
@@ -25,5 +37,9 @@ public class Word {
 					- 1 - i])
 					: 0;
 		}
+	}
+
+	public Word clone() {
+		return new Word(this);
 	}
 }
