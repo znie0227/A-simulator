@@ -90,8 +90,8 @@ public class Utils {
 			if (instr.toUpperCase().startsWith("LDR")) {
 				code.append(getBinaryFromDec(1, 6));// opcode
 				String instr_2 = instr.substring(3);
-				instr_2 = instr_2.trim();// trim all leading and tailing
-											// whitespace.fault-tolerant.
+				// trim all leading and tailing whitespaces.fault-tolerant.
+				instr_2 = instr_2.trim();
 
 				int index = instr_2.indexOf(',');
 				int bin = Integer.valueOf(instr_2.substring(0, index));
@@ -118,9 +118,8 @@ public class Utils {
 			else if (instr.toUpperCase().startsWith("STR")) {
 				code.append(getBinaryFromDec(2, 6));
 				String instr_2 = instr.substring(3);
-				instr_2 = instr_2.trim();// trim all leading and tailing
-											// whitespace.fault-tolerant.
-
+				// trim all leading and tailing whitespaces.fault-tolerant.
+				instr_2 = instr_2.trim();
 				int index = instr_2.indexOf(',');
 				int bin = Integer.valueOf(instr_2.substring(0, index));
 				code.append(getBinaryFromDec(bin, 2));
@@ -329,6 +328,16 @@ public class Utils {
 			code = new StringBuffer("error!");
 		}
 		return code.toString();
+	}
+	
+	/**
+	 * Generate binary parameter from subString of instruction
+	 * 
+	 * @param originalInstruction
+	 * @return binary parameter
+	 */
+	public static String getInstructionParam(String originalInstruction){
+		return null;
 	}
 
 }
