@@ -7,4 +7,11 @@ package com.architecture.util;
  */
 public class Utils {
 
+	
+	public static String getBinaryFromDec(int val){
+		return null;
+	}
+	public static String getDecimalFromBin(int val){
+		return null;
+	}
 }
