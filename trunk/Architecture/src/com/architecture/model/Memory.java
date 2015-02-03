@@ -2,10 +2,6 @@ package com.architecture.model;
 
 import com.architecture.util.Config;
 
-import edu.gwu.core.Setting;
-import edu.gwu.core.basic.Word;
-import edu.gwu.exception.IllegalMemoryAddressException;
-
 public class Memory {
 
 	public static Memory instance;
@@ -17,6 +13,11 @@ public class Memory {
 			data[i] = new Word();
 	}
 
+	/**
+	 * Return a static instance of Memory
+	 * 
+	 * @return instance
+	 */
 	public static Memory getInstance() {
 		if (instance == null) {
 			instance = new Memory();
@@ -25,9 +26,40 @@ public class Memory {
 	}
 
 	public Word read(int index) {
-		if (index < 0 || index > Config.MEMORY_SIZE)
+
+		if (index < 0 || index > Config.MEMORY_SIZE) {
 			// TODO out of Bound throw new IllegalMemoryAddressException(index);
-			return this.data[index].clone();
+		}
+		return this.data[index].clone();
+	}
+
+	/**
+	 * Write Memory. Transform data into Word before writing
+	 * 
+	 * @param index
+	 * @param data
+	 * 
+	 */
+	public void write(int index, int[] data) {
+		if (index < 0 || index > Config.MEMORY_SIZE) {
+			// TODO throw new IllegalMemoryAddressException(index);
+		}
+		this.data[index].setValue(data);
+	}
+
+	/**
+	 * Write Memory
+	 * 
+	 * @param index
+	 * @param word
+	 * 
+	 */
+	public void write(int index, Word word) {
+		if (index < 0 || index > Config.MEMORY_SIZE) {
+			// TODO throw new IllegalMemoryAddressException(index);
+		}
+		this.data[index].setValue(word);
+
 	}
 
 }
