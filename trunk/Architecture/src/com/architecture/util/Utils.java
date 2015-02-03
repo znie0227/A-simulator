@@ -81,8 +81,6 @@ public class Utils {
 
 			}
 		}
-
-		return null;
 	}
 
 	public static String getCodeFromInstr(String instr) {
