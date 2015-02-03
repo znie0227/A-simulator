@@ -9,6 +9,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -58,7 +59,14 @@ public class MainView extends JPanel{
              JButton PowerOff=new JButton("PowerOff");
              
              JPanel p3=new JPanel();         //Memory Panel
-             
+             Label addr=new Label("Addr");
+             Label data=new Label("Data");
+             JTextField ADDRField = new JTextField();
+             JTextField DATAField=new JTextField();
+     		 JTextField inputField2=new JTextField();
+     		 JTextField inputField3=new JTextField();
+     		 JButton query=new JButton("Query");
+     		 JButton load=new JButton("Load");
              
              JPanel p4=new JPanel();         //Cache Panel
              
@@ -147,11 +155,42 @@ public class MainView extends JPanel{
               p2.add(PowerOn);
               p2.add(PowerOff);
               
+              // components in P3 memory
               p3.setSize(250,200);
-              p3.setLocation(0, 250);
-             
+              p3.setLayout(null);
+              p3.setLocation(0, 250);             
               p3.setBorder(BorderFactory.createTitledBorder("Memory"));
-          
+              addr.setSize(40,25);
+              addr.setLocation(8,280); 
+              data.setSize(40,25);
+              data.setLocation(8,320);              
+      		  ADDRField.setEnabled(false);
+      		  ADDRField.setText("000000000000000000");
+      		  ADDRField.setBounds(50, 280, 130, 28);      		  
+      		  ADDRField.setEditable(false);
+      		  ADDRField.setColumns(10);
+      		  DATAField.setEnabled(false);
+    		  DATAField.setText("000000000000000000");
+    		  DATAField.setBounds(50, 320, 130, 28);      		  
+    		  DATAField.setEditable(false);
+    		  DATAField.setColumns(10);
+    		  inputField2.setSize(40,25);
+    		  inputField2.setLocation(200,282);
+    		  inputField3.setSize(40,25);
+    		  inputField3.setLocation(200,322);
+    		  query.setSize(68,23);
+    		  query.setLocation(17,370);
+    		  load.setSize(68,23);
+    		  load.setLocation(110,369);
+              f.add(addr);
+              f.add(data);
+              f.add(ADDRField);
+              f.add(DATAField);
+              f.add(inputField2);
+              f.add(inputField3);
+              f.add(query);
+              f.add(load);
+              
               
               p4.setSize(350,200);
               p4.setLocation(250, 250);
@@ -167,7 +206,7 @@ public class MainView extends JPanel{
               //p6.add(cb);
               
               
-             // the components in console 
+             // the components in p6 console 
               
               p6.setSize(600,200);
               p6.setLocation(0,450);
