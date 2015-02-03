@@ -18,4 +18,252 @@ public class Utils {
 	public static String getDecimalFromBin(int val){
 		return null;
 	}
+	
+	public static String getCodeFromInstr(String instr){
+		StringBuffer code = new StringBuffer();
+		
+		try {
+			if(instr.toUpperCase().startsWith("LDR")){
+				code.append(getBinaryFromDec(1, 6));//opcode
+				String instr_2=instr.substring(3);
+				instr_2=instr_2.trim();//trim all leading and tailing whitespace.fault-tolerant.
+				
+				int index=instr_2.indexOf(',');
+				int bin=Integer.valueOf(instr_2.substring(0,index));
+				code.append(getBinaryFromDec(bin, 2));  //R
+				
+				instr_2=instr_2.substring(index+1);
+				index=instr_2.indexOf(',');
+				bin=Integer.valueOf(instr_2.substring(0,index));
+				code.append(getBinaryFromDec(bin, 2)); //IX
+				
+				instr_2=instr_2.substring(index+1);
+				if(instr_2.indexOf(',')>=0){
+					code.append("0");  //I
+					index=instr_2.indexOf(',');
+					bin=Integer.valueOf(instr_2.substring(0,index));
+					code.append(getBinaryFromDec(bin, 5));  //Address
+				}
+				else{
+					code.append("1");  //I
+					bin=Integer.valueOf(instr_2);
+					code.append(getBinaryFromDec(bin, 5));
+				}
+			}
+			
+			else if(instr.toUpperCase().startsWith("STR")){
+				code.append(getBinaryFromDec(2, 6));
+				String instr_2=instr.substring(3);
+				instr_2=instr_2.trim();//trim all leading and tailing whitespace.fault-tolerant.
+				
+				int index=instr_2.indexOf(',');
+				int bin=Integer.valueOf(instr_2.substring(0,index));
+				code.append(getBinaryFromDec(bin, 2));
+				
+				instr_2=instr_2.substring(index+1);
+				index=instr_2.indexOf(',');
+				bin=Integer.valueOf(instr_2.substring(0,index));
+				code.append(getBinaryFromDec(bin, 2));
+				
+				instr_2=instr_2.substring(index+1);
+				if(instr_2.indexOf(',')>=0){
+					code.append("0");
+					index=instr_2.indexOf(',');
+					bin=Integer.valueOf(instr_2.substring(0,index));
+					code.append(getBinaryFromDec(bin, 5));
+				}
+				else{
+					code.append("1");  //I
+					bin=Integer.valueOf(instr_2);
+					code.append(getBinaryFromDec(bin, 5));
+				}
+			}
+			
+			else if(instr.toUpperCase().startsWith("LDA")){
+				code.append(getBinaryFromDec(3, 6));
+				String instr_2=instr.substring(3);
+				instr_2=instr_2.trim();//trim all leading and tailing whitespace.fault-tolerant.
+				
+				int index=instr_2.indexOf(',');
+				int bin=Integer.valueOf(instr_2.substring(0,index));
+				code.append(getBinaryFromDec(bin, 2));
+				
+				instr_2=instr_2.substring(index+1);
+				index=instr_2.indexOf(',');
+				bin=Integer.valueOf(instr_2.substring(0,index));
+				code.append(getBinaryFromDec(bin, 2));
+				
+				instr_2=instr_2.substring(index+1);
+				if(instr_2.indexOf(',')>=0){
+					code.append("0");
+					index=instr_2.indexOf(',');
+					bin=Integer.valueOf(instr_2.substring(0,index));
+					code.append(getBinaryFromDec(bin, 5));
+				}
+				else{
+					code.append("1");  //I
+					bin=Integer.valueOf(instr_2);
+					code.append(getBinaryFromDec(bin, 5));
+				}
+			}
+			
+			else if(instr.toUpperCase().startsWith("LDX")){
+				code.append(getBinaryFromDec(41, 6));
+				String instr_2=instr.substring(3);
+				instr_2=instr_2.trim();//trim all leading and tailing whitespace.fault-tolerant.
+				
+				int index=instr_2.indexOf(',');
+				int bin=Integer.valueOf(instr_2.substring(0,index));
+				code.append(getBinaryFromDec(bin, 2));
+				
+				instr_2=instr_2.substring(index+1);
+				index=instr_2.indexOf(',');
+				bin=Integer.valueOf(instr_2.substring(0,index));
+				code.append(getBinaryFromDec(bin, 2));
+				
+				instr_2=instr_2.substring(index+1);
+				if(instr_2.indexOf(',')>=0){
+					code.append("0");
+					index=instr_2.indexOf(',');
+					bin=Integer.valueOf(instr_2.substring(0,index));
+					code.append(getBinaryFromDec(bin, 5));
+				}
+				else{
+					code.append("1");  //I
+					bin=Integer.valueOf(instr_2);
+					code.append(getBinaryFromDec(bin, 5));
+				}
+			}
+			
+			else if(instr.toUpperCase().startsWith("STX")){
+				code.append(getBinaryFromDec(42, 6));
+				String instr_2=instr.substring(3);
+				instr_2=instr_2.trim();//trim all leading and tailing whitespace.fault-tolerant.
+				
+				int index=instr_2.indexOf(',');
+				int bin=Integer.valueOf(instr_2.substring(0,index));
+				code.append(getBinaryFromDec(bin, 2));
+				
+				instr_2=instr_2.substring(index+1);
+				index=instr_2.indexOf(',');
+				bin=Integer.valueOf(instr_2.substring(0,index));
+				code.append(getBinaryFromDec(bin, 2));
+				
+				instr_2=instr_2.substring(index+1);
+				if(instr_2.indexOf(',')>=0){
+					code.append("0");
+					index=instr_2.indexOf(',');
+					bin=Integer.valueOf(instr_2.substring(0,index));
+					code.append(getBinaryFromDec(bin, 5));
+				}
+				else{
+					code.append("1");  //I
+					bin=Integer.valueOf(instr_2);
+					code.append(getBinaryFromDec(bin, 5));
+				}
+			}
+			
+			else if(instr.toUpperCase().startsWith("AMR")){
+				code.append(getBinaryFromDec(4, 6));//opcode
+				String instr_2=instr.substring(3);
+				instr_2=instr_2.trim();//trim all leading and tailing whitespace.fault-tolerant.
+				
+				int index=instr_2.indexOf(',');
+				int bin=Integer.valueOf(instr_2.substring(0,index));
+				code.append(getBinaryFromDec(bin, 2));  //R
+				
+				instr_2=instr_2.substring(index+1);
+				index=instr_2.indexOf(',');
+				bin=Integer.valueOf(instr_2.substring(0,index));
+				code.append(getBinaryFromDec(bin, 2)); //IX
+				
+				instr_2=instr_2.substring(index+1);
+				if(instr_2.indexOf(',')>=0){
+					code.append("0");  //I
+					index=instr_2.indexOf(',');
+					bin=Integer.valueOf(instr_2.substring(0,index));
+					code.append(getBinaryFromDec(bin, 5));  //Address
+				}
+				else{
+					code.append("1");  //I
+					bin=Integer.valueOf(instr_2);
+					code.append(getBinaryFromDec(bin, 5));
+				}
+			}
+			
+			else if(instr.toUpperCase().startsWith("SMR")){
+				code.append(getBinaryFromDec(5, 6));//opcode
+				String instr_2=instr.substring(3);
+				instr_2=instr_2.trim();//trim all leading and tailing whitespace.fault-tolerant.
+				
+				int index=instr_2.indexOf(',');
+				int bin=Integer.valueOf(instr_2.substring(0,index));
+				code.append(getBinaryFromDec(bin, 2));  //R
+				
+				instr_2=instr_2.substring(index+1);
+				index=instr_2.indexOf(',');
+				bin=Integer.valueOf(instr_2.substring(0,index));
+				code.append(getBinaryFromDec(bin, 2)); //IX
+				
+				instr_2=instr_2.substring(index+1);
+				if(instr_2.indexOf(',')>=0){
+					code.append("0");  //I
+					index=instr_2.indexOf(',');
+					bin=Integer.valueOf(instr_2.substring(0,index));
+					code.append(getBinaryFromDec(bin, 5));  //Address
+				}
+				else{
+					code.append("1");  //I
+					bin=Integer.valueOf(instr_2);
+					code.append(getBinaryFromDec(bin, 5));
+				}
+			}
+			
+			else if(instr.toUpperCase().startsWith("AIR")){
+				code.append(getBinaryFromDec(6, 6));//opcode
+				String instr_2=instr.substring(3);
+				instr_2=instr_2.trim();//trim all leading and tailing whitespace.fault-tolerant.
+				
+				int index=instr_2.indexOf(',');
+				int bin=Integer.valueOf(instr_2.substring(0,index));
+				code.append(getBinaryFromDec(bin, 2));  //R
+				
+				code.append("000"); //IX and I
+				
+				instr_2=instr_2.substring(index+1);
+				if(instr_2.indexOf(',')>=0){
+					code.replace(0, code.length()-1, "error!");
+				}
+				else{
+					bin=Integer.valueOf(instr_2);
+					code.append(getBinaryFromDec(bin, 5));
+				}
+			}
+			
+			else if(instr.toUpperCase().startsWith("SIR")){
+				code.append(getBinaryFromDec(6, 6));//opcode
+				String instr_2=instr.substring(3);
+				instr_2=instr_2.trim();//trim all leading and tailing whitespace.fault-tolerant.
+				
+				int index=instr_2.indexOf(',');
+				int bin=Integer.valueOf(instr_2.substring(0,index));
+				code.append(getBinaryFromDec(bin, 2));  //R
+				
+				code.append("000"); //IX and I
+				
+				instr_2=instr_2.substring(index+1);
+				if(instr_2.indexOf(',')>=0){
+					code.replace(0, code.length(), "error!");
+				}
+				else{
+					bin=Integer.valueOf(instr_2);
+					code.append(getBinaryFromDec(bin, 5));
+				}
+			}
+		} catch (Exception e) {
+//			e.printStackTrace();
+			code=new StringBuffer("error!");
+		}
+		return code.toString();
+	}
 }
