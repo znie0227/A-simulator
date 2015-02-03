@@ -16,6 +16,14 @@ public class Register {
 	public int[] getData() {
 		return data;
 	}
+	public String getDataInString() {
+		StringBuffer sb = new StringBuffer();
+		for (int i=0;i<size;i++)
+		{
+			sb.append(data[i]);
+		}
+		return sb.toString();
+	}
 
 	public void setData(int[] data) {
 		this.data = data;
