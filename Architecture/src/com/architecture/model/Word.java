@@ -38,6 +38,17 @@ public class Word {
 					: 0;
 		}
 	}
+	
+	/**
+	 * copy the binary values in word into current data
+	 * @param word
+	 */
+	public void setValue(Word word){
+		int n[] = word.getData();
+		for(int i=0;i<Config.WORD_SIZE;i++){
+			data[i] = n[i];
+		}
+	}
 
 	public Word clone() {
 		return new Word(this);
