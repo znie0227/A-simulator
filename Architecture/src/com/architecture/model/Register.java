@@ -33,7 +33,7 @@ public class Register {
 	 * @return data in decimal-format
 	 */
 	public int getDecData(){
-		return Integer.valueOf(Utils.getDecimalFromBin(getData()));
+		return Utils.getDecimalFromBin(getData());
 		
 	}
 
