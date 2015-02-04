@@ -176,6 +176,7 @@ public class Utils {
 
 	public static String decompose_2(int opcode, String instr) {
 		StringBuffer code = new StringBuffer();
+		code.append(getBinaryFromDec(opcode, 6));
 		String instr_2 = instr.substring(3);
 		instr_2 = instr_2.trim();// trim all leading and tailing
 									// whitespace.fault-tolerant.
