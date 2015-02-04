@@ -22,13 +22,17 @@ public class Word {
 	public int[] getData() {
 		return data;
 	}
+
 	public String getDataInString() {
 		StringBuffer sb = new StringBuffer();
-		for (int i=0;i<Config.WORD_SIZE;i++)
-		{
+		for (int i = 0; i < Config.WORD_SIZE; i++) {
 			sb.append(data[i]);
 		}
 		return sb.toString();
+	}
+
+	public int getDataInDec() {
+		return Integer.valueOf(getDataInString());
 	}
 
 	public void setValue(int[] data) {
@@ -38,14 +42,15 @@ public class Word {
 					: 0;
 		}
 	}
-	
+
 	/**
 	 * copy the binary values in word into current data
+	 * 
 	 * @param word
 	 */
-	public void setValue(Word word){
+	public void setValue(Word word) {
 		int n[] = word.getData();
-		for(int i=0;i<Config.WORD_SIZE;i++){
+		for (int i = 0; i < Config.WORD_SIZE; i++) {
 			data[i] = n[i];
 		}
 	}
