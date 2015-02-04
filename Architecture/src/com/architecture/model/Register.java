@@ -26,19 +26,25 @@ public class Register {
 		}
 		return sb.toString();
 	}
-	
-	
+
 	/**
-	  
+	 * 
 	 * @return data in decimal-format
 	 */
-	public int getDecData(){
+	public int getDecData() {
 		return Utils.getDecimalFromBin(getData());
-		
+
 	}
 
 	public void setData(int[] data) {
 		this.data = data;
+	}
+
+	public void setDataByDec(int val) {
+		for (int i = 0; i < size; i++) {
+			data[size - i - 1] = val % 2;
+			val = val / 2;
+		}
 	}
 
 	public int getSize() {
