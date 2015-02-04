@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.architecture.model.Memory;
 import com.architecture.model.Register;
+import com.architecture.util.Config;
 import com.architecture.util.Utils;
 
 public class Application {
@@ -34,14 +35,27 @@ public class Application {
 	}
 
 	private static void initRegister() {
-		addRegister("R0", 16);
-		addRegister("R1", 16);
-		addRegister("R2", 16);
-		addRegister("R3", 16);
+		addRegister("R0", Config.GPR_SIZE);
+		addRegister("R1", Config.GPR_SIZE);
+		addRegister("R2", Config.GPR_SIZE);
+		addRegister("R3", Config.GPR_SIZE);
 
-		addRegister("X1", 16);
-		addRegister("X2", 16);
-		addRegister("X3", 16);
+		addRegister("X1", Config.IndexReg_SIZE);
+		addRegister("X2", Config.IndexReg_SIZE);
+		addRegister("X3", Config.IndexReg_SIZE);
+		
+		addRegister("PC", Config.PC_SIZE);
+		addRegister("CC", Config.CC_SIZE);
+		addRegister("MAR", Config.MAR_SIZE);
+		addRegister("MDR", Config.MDR_SIZE);
+		addRegister("Carry", Config.MDR_SIZE);
+		
+		addRegister("ARR", Config.ARR_SIZE);
+//		addRegister("MRR", Config.MDR_SIZE);
+//		addRegister("SRR", Config.MDR_SIZE);
+//		addRegister("CRR", Config.MDR_SIZE);
+//		addRegister("LRR", Config.MDR_SIZE);
+		
 
 	}
 
@@ -53,4 +67,5 @@ public class Application {
 	public static Register getRegisterByName(String name){
 		return registerMap.get(name);
 	}
+	
 }
