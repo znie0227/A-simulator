@@ -21,7 +21,7 @@ public class Application {
 		// Scanner sc = new Scanner(System.in);
 		// String instruction=sc.nextLine();
 
-		System.out.println(Utils.getBinaryFromDec(4, 5));
+		System.out.println(Utils.getBinaryFromDecInString(4, 5));
 		
 		init();
 		
