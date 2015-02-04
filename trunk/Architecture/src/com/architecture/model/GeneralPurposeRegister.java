@@ -20,7 +20,7 @@ public class GeneralPurposeRegister extends Register {
 	}
 
 	public int getDecValue() {
-		return Integer.valueOf(Utils.getDecimalFromBin(data));
+		return Utils.getDecimalFromBin(data);
 	}
 
 	public int[] getBinValue() {
