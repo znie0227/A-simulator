@@ -4,7 +4,7 @@ import com.architecture.util.Config;
 
 public class Memory {
 
-	public static Memory instance;
+	private static Memory instance;
 	private Word[] data;
 
 	public Memory() {
