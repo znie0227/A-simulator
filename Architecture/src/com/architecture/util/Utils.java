@@ -35,23 +35,28 @@ public class Utils {
 	}
 
 	public static int getDecimalFromBin(int[] val) {
-		// TODO
-		return 1;
+		int result = 0;
+		for (int i = 0; i < val.length; i++) {
+			result = result * 2 + val[i];
+		}
+		return result;
 	}
 
 	public static int getDecimalFromBin(String val) {
-		// TODO
-		return 1;
+		int result = 0;
+		for (int i = 0; i < val.length(); i++) {
+			result = result * 2 + (val.charAt(i) - 48);
+		}
+		return result;
 	}
 
 	public static String getDecimalFromBinInString(int[] val) {
-		// TODO
-		return null;
+		
+		return String.valueOf(getDecimalFromBin(val));
 	}
 
 	public static String getDecimalFromBinInString(String val) {
-		// TODO
-		return null;
+		return String.valueOf(getDecimalFromBin(val));
 	}
 
 	/**
@@ -156,16 +161,16 @@ public class Utils {
 		case 000006:
 			t1 = Application.getRegisterByName(regName).getDecData();
 			Log.d("Operand 1 into T1");
-			t2=immed[0];
+			t2 = immed[0];
 			Log.d("Operand 2 into T2");
 			Application.getRegisterByName("ARR").setDataByDec(t1 + t2);
 			Log.d("ARR <- ADDER");
-			
+
 			break;
 		case 000007:
 			t1 = Application.getRegisterByName(regName).getDecData();
 			Log.d("Operand 1 into T1");
-			t2=immed[0];
+			t2 = immed[0];
 			Log.d("Operand 2 into T2");
 			Application.getRegisterByName("ARR").setDataByDec(t1 - t2);
 			Log.d("ARR <- ADDER");
