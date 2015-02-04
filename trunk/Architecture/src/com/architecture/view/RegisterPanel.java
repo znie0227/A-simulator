@@ -6,6 +6,7 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Label;
 
+import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -20,8 +21,8 @@ public class RegisterPanel extends JPanel {
 
 	public RegisterPanel() {
 
-		this.setLayout(new FlowLayout());
-		// p1.setLayout(new BorderLayout());// Register Panel
+		this.setLayout(null);
+		AbstractButton registerPanel;		
 		JButton R0 = new JButton("R0");
 		JButton R1 = new JButton("R1");
 		JButton R2 = new JButton("R2");
@@ -37,16 +38,16 @@ public class RegisterPanel extends JPanel {
 		this.setBorder(BorderFactory.createTitledBorder("Register"));
 
 		R0.setSize(60, 25);
-		R0.setLocation(10, 50);
+		R0.setLocation(8, 55);
 
-		R1.setLocation(105, 50);
+		R1.setLocation(105, 55);
 		R1.setSize(60, 25);
 
 		R2.setSize(60, 25);
-		R2.setLocation(200, 50);
+		R2.setLocation(200, 55);
 
 		R3.setSize(60, 25);
-		R3.setLocation(10, 90);
+		R3.setLocation(8, 90);
 
 		X1.setSize(60, 25);
 		X1.setLocation(105, 90);
@@ -55,13 +56,13 @@ public class RegisterPanel extends JPanel {
 		X2.setLocation(200, 90);
 
 		X3.setSize(60, 25);
-		X3.setLocation(10, 130);
+		X3.setLocation(8, 130);
 
 		MAR.setSize(60, 25);
 		MAR.setLocation(105, 130);
 
 		MBR.setSize(60, 25);
-		MBR.setLocation(165, 130);
+		MBR.setLocation(200, 130);
 
 		Label l1 = new Label("java"); // 内容根据编程改，这里只是做个例子
 		l1.setLocation(10, 15);
