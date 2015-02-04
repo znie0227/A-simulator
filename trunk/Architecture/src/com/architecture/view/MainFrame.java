@@ -26,7 +26,7 @@ public class MainFrame extends JFrame {
 		this.setLocation(200, 120);
 		this.setLayout(null);
 		this.setResizable(true);
-		
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		registerPanel = new RegisterPanel();
 		
