@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import com.architecture.model.Memory;
 import com.architecture.model.Register;
 import com.architecture.util.Config;
 import com.architecture.util.Utils;
+import com.architecture.view.MainFrame;
 
 public class Application {
 
@@ -25,6 +25,8 @@ public class Application {
 		System.out.println(Utils.getBinaryFromDecInString(4, 5));
 		
 		init();
+		
+		MainFrame mv = new MainFrame();
 		
 	}
 
