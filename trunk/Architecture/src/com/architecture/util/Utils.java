@@ -31,12 +31,25 @@ public class Utils {
 		}
 		return sb.reverse().toString();
 	}
+	
+	
 
-	public static String getDecimalFromBin(int[] val) {
+	public static int getDecimalFromBin(int[] val) {
+		// TODO
+		return 1;
+	}
+	
+	public static int getDecimalFromBin(String val) {
+		// TODO
+		return 1;
+	}
+	public static String getDecimalFromBinInString(int[] val) {
+		// TODO
 		return null;
 	}
 
-	public static String getDecimalFromBin(String val) {
+	public static String getDecimalFromBinInString(String val) {
+		// TODO
 		return null;
 	}
 
@@ -60,13 +73,13 @@ public class Utils {
 			else {
 
 				String regName = instruction.substring(8, 9);
-				regName = "X" + getDecimalFromBin(regName);
+				regName = "X" + getDecimalFromBinInString(regName);
 				String regData = Application.getRegisterByName(regName)
 						.getDataInString();
 				return getBinaryFromDecInString(
-						Integer.valueOf(getDecimalFromBin(regData))
-								+ Integer.valueOf(getDecimalFromBin(instruction
-										.substring(11))), 11);// TODO 11 is
+						getDecimalFromBin(regData)
+								+ getDecimalFromBin(instruction
+										.substring(11)), 11);// TODO 11 is
 																// questionable...
 			}
 		} else {
@@ -74,18 +87,18 @@ public class Utils {
 			if (instruction.substring(8, 9).equals("00")) {
 				return Memory
 						.getInstance()
-						.read(Integer.valueOf(getDecimalFromBin(instruction
-								.substring(11)))).getDataInString();
+						.read(getDecimalFromBin(instruction
+								.substring(11))).getDataInString();
 			} else {
 				// both indirect addressing and indexing
 
 				String regName = instruction.substring(8, 9);
-				regName = "X" + getDecimalFromBin(regName);
+				regName = "X" + getDecimalFromBinInString(regName);
 				String regData = Application.getRegisterByName(regName)
 						.getDataInString();
-				int contentOfIR = Integer.valueOf(getDecimalFromBin(regData));
-				int address = Integer.valueOf(getDecimalFromBin(instruction
-						.substring(11)));
+				int contentOfIR = getDecimalFromBin(regData);
+				int address = getDecimalFromBin(instruction
+						.substring(11));
 				return Memory.getInstance().read(contentOfIR + address)
 						.getDataInString();
 
