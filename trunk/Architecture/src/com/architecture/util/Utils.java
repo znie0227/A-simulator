@@ -124,7 +124,7 @@ public class Utils {
 		code.append(getBinaryFromDec(bin, 2)); // IX
 
 		instr_2 = instr_2.substring(index + 1);
-		if (instr_2.indexOf(',') >= 0) {
+		if (instr_2.indexOf(',') >= 0&&instr_2.indexOf('I') >= 0) {
 			code.append("0"); // I
 			index = instr_2.indexOf(',');
 			bin = Integer.valueOf(instr_2.substring(0, index));
@@ -153,7 +153,7 @@ public class Utils {
 		code.append("000"); // IX and I
 
 		instr_2 = instr_2.substring(index + 1);
-		if (instr_2.indexOf(',') >= 0) {
+		if (instr_2.indexOf(',')>=0 &&instr_2.indexOf('I') >= 0) {
 			code.replace(0, code.length(), "error!");
 		} else {
 			bin = Integer.valueOf(instr_2);
@@ -188,19 +188,19 @@ public class Utils {
 			}
 
 			else if (instr.toUpperCase().startsWith("AMR")) {
-				code.append(decompose_3or4((int)InstructionSet.instructionMap.get("AMR"),instr));// opcode
+				code.append(decompose_3or4((int)InstructionSet.instructionMap.get("AMR"),instr));
 			}
 
 			else if (instr.toUpperCase().startsWith("SMR")) {
-				code.append(decompose_3or4((int)InstructionSet.instructionMap.get("SMR"),instr));// opcode
+				code.append(decompose_3or4((int)InstructionSet.instructionMap.get("SMR"),instr));
 			}
 
 			else if (instr.toUpperCase().startsWith("AIR")) {
-				code.append(decompose_2((int)InstructionSet.instructionMap.get("AIR"),instr));// opcode
+				code.append(decompose_2((int)InstructionSet.instructionMap.get("AIR"),instr));
 			}
 
 			else if (instr.toUpperCase().startsWith("SIR")) {
-				code.append(decompose_2((int)InstructionSet.instructionMap.get("SIR"),instr));// opcode
+				code.append(decompose_2((int)InstructionSet.instructionMap.get("SIR"),instr));
 			}
 		} catch (Exception e) {
 			// e.printStackTrace();
