@@ -8,4 +8,8 @@ package com.architecture.util;
  */
 public class Constants {
 
+	
+	public static final int CPU_STATE_IDLE=1000;
+	public static final int CPU_STATE_RUNNING=1001;
+	public static final int CPU_STATE_FINISHED=1002;
 }
