@@ -1,6 +1,9 @@
 package com.architecture.view;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.Label;
 
 import javax.swing.BorderFactory;
@@ -9,8 +12,15 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 public class RegisterPanel extends JPanel {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3571459367666941550L;
+
 	public RegisterPanel() {
-		JPanel p1 = new JPanel();
+
+		this.setLayout(new FlowLayout());
 		// p1.setLayout(new BorderLayout());// Register Panel
 		JButton R0 = new JButton("R0");
 		JButton R1 = new JButton("R1");
@@ -23,8 +33,8 @@ public class RegisterPanel extends JPanel {
 		JButton MBR = new JButton("MBR");
 
 		// components in P1
-		p1.setSize(300, 250);
-		p1.setBorder(BorderFactory.createTitledBorder("Register"));
+		this.setSize(300, 250);
+		this.setBorder(BorderFactory.createTitledBorder("Register"));
 
 		R0.setSize(60, 25);
 		R0.setLocation(10, 50);
@@ -69,20 +79,20 @@ public class RegisterPanel extends JPanel {
 		display2.setText("display2");
 		display1.setBackground(Color.RED);
 
-		p1.add(l1);
-		p1.add(display1);
-		p1.add(display2);
+		this.add(l1);
+		this.add(display1);
+		this.add(display2);
 
-		p1.add(R0);
-		p1.add(R1);
-		p1.add(R2);
-		p1.add(R3);
-		p1.add(X1);
-		p1.add(X2);
-		p1.add(X3);
-		p1.add(MAR);
-		p1.add(MBR);
-		
-		this.validate();
+		this.add(R0);
+		this.add(R1);
+		this.add(R2);
+		this.add(R3);
+		this.add(X1);
+		this.add(X2);
+		this.add(X3);
+		this.add(MAR);
+		this.add(MBR);
+
+		this.setVisible(true);
 	}
 }
