@@ -6,7 +6,7 @@ import java.util.Map;
 public class InstructionSet {
 
 	
-	public static Map instructionMap= new HashMap<String, Integer>();
+	public static Map<String, Integer> instructionMap= new HashMap<String, Integer>();
 	
 	static {
 		instructionMap.put("LDR",1);
