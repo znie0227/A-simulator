@@ -30,6 +30,7 @@ public class RegisterPanel extends JPanel {
 	private JButton X3 = new JButton("X3");
 	private JButton MAR = new JButton("MAR");
 	private JButton MDR = new JButton("MDR");
+	private JButton PC = new JButton("PC");
 
 	private JButton save = new JButton("Save");
 
@@ -72,6 +73,9 @@ public class RegisterPanel extends JPanel {
 
 		MDR.setSize(60, 25);
 		MDR.setLocation(200, 130);
+		
+		PC.setSize(60, 25);
+		PC.setLocation(8, 170);
 
 		Label l1 = new Label("Value"); // 内容根据编程改，这里只是做个例子
 		l1.setLocation(10, 15);
@@ -144,6 +148,7 @@ public class RegisterPanel extends JPanel {
 		this.add(MAR);
 		this.add(MDR);
 		this.add(save);
+		this.add(PC);
 
 		addListener();
 
@@ -160,6 +165,7 @@ public class RegisterPanel extends JPanel {
 		addListener(X3, "X3");
 		addListener(MAR, "MAR");
 		addListener(MDR, "MDR");
+		addListener(PC, "PC");
 
 		save.addActionListener(new ActionListener() {
 
