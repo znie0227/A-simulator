@@ -27,6 +27,7 @@ public class MainFrame extends JFrame {
 		this.setLayout(null);
 		this.setResizable(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setResizable(false);
 		
 		registerPanel = new RegisterPanel();
 		
@@ -62,8 +63,4 @@ public class MainFrame extends JFrame {
 	}
 	
 	
-	public static void main(String args[]) {
-		MainFrame mf = new MainFrame();
-		System.out.println("sdf");
-	}
 }
