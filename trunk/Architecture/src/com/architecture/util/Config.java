@@ -11,6 +11,7 @@ public class Config {
 	public static final int IndexReg_SIZE=12;
 	public static final int WORD_SIZE=16;
 	public static int MEMORY_SIZE=2048;
+	public static int NUMBER_OF_BITS_OF_MEMORY_SIZE=11; // TODO automatic retrieve from MEMORY_SIZE
 	public static final int PC_SIZE=12;
 	public static final int IR_SIZE=16;
 	public static final int MAR_SIZE=16;
