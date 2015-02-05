@@ -22,7 +22,6 @@ public class Application {
 		// Scanner sc = new Scanner(System.in);
 		// String instruction=sc.nextLine();
 
-		System.out.println(Utils.getBinaryFromDecInString(4, 5));
 		
 		init();
 		
@@ -48,6 +47,7 @@ public class Application {
 		
 		addRegister("PC", Config.PC_SIZE);
 		addRegister("CC", Config.CC_SIZE);
+		addRegister("IR", Config.IR_SIZE);
 		addRegister("MAR", Config.MAR_SIZE);
 		addRegister("MDR", Config.MDR_SIZE);
 		addRegister("Carry", Config.MDR_SIZE);
