@@ -37,7 +37,12 @@ public class Register {
 	}
 
 	public void setData(int[] data) {
-		this.data = data;
+		for (int i = 0; i < size; i++) {
+			if (i < data.length)
+				this.data[size - i - 1] = data[data.length - 1 - i];
+			else
+				this.data[size - i - 1] = 0;
+		}
 	}
 
 	public void setDataByDec(int val) {
