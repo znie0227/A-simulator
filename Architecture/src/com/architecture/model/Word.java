@@ -1,6 +1,7 @@
 package com.architecture.model;
 
 import com.architecture.util.Config;
+import com.architecture.util.Utils;
 
 public class Word {
 
@@ -32,7 +33,7 @@ public class Word {
 	}
 
 	public int getDataInDec() {
-		return Integer.valueOf(getDataInString());
+		return Utils.getDecimalFromBin(getDataInString());
 	}
 
 	public void setValue(int[] data) {
