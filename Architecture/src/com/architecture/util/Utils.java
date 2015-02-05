@@ -66,19 +66,19 @@ public class Utils {
 	 * @param instruction
 	 * @return effective address
 	 */
-	public static String getEffectiveAddress(String instruction) {
+	public static String getEffectiveAddressInBin(String instruction) {
 
 		// TODO 还没测试...
 
 		if (instruction.charAt(10) == '0') {
 			// No indirect addressing
-			if (instruction.substring(8, 9).equals("00")) {
+			if (instruction.substring(8, 10).equals("00")) {
 				return instruction.substring(11);
 			}
 			// just indexing
 			else {
 
-				String regName = instruction.substring(8, 9);
+				String regName = instruction.substring(8, 10);
 				regName = "X" + getDecimalFromBinInString(regName);
 				String regData = Application.getRegisterByName(regName)
 						.getDataInString();
@@ -90,14 +90,14 @@ public class Utils {
 			}
 		} else {
 			// indirect addressing, but No indexing
-			if (instruction.substring(8, 9).equals("00")) {
+			if (instruction.substring(8, 10).equals("00")) {
 				return Memory.getInstance()
 						.read(getDecimalFromBin(instruction.substring(11)))
 						.getDataInString();
 			} else {
 				// both indirect addressing and indexing
 
-				String regName = instruction.substring(8, 9);
+				String regName = instruction.substring(8, 10);
 				regName = "X" + getDecimalFromBinInString(regName);
 				String regData = Application.getRegisterByName(regName)
 						.getDataInString();
@@ -111,7 +111,7 @@ public class Utils {
 	}
 
 	public static int getEffectiveAddressInDec(String instruction) {
-		return Integer.valueOf(getEffectiveAddress(instruction));
+		return getDecimalFromBin(getEffectiveAddressInBin(instruction));
 	}
 
 	public static String getStringFromIntArray(int[] array) {
@@ -121,11 +121,18 @@ public class Utils {
 		}
 		return sb.toString();
 	}
+	public static int[] getIntArrayFromString(String val) {
+		int[] intArray = new int[val.length()];
+		for (int i = 0; i < val.length(); i++) {
+			intArray[i]=val.charAt(i)-48;
+		}
+		return intArray;
+	}
 
 	public static void adder(String opcode, String regName, int... immed) {
 		int t1, t2;
-		switch (Integer.valueOf(opcode)) {
-		case 000004:
+		switch (getDecimalFromBin(opcode)) {
+		case 4:
 			// MDR <- M(MAR)
 			Application.getRegisterByName("MDR").setData(
 					Memory.getInstance()
@@ -142,7 +149,7 @@ public class Utils {
 			// TODO test overflow
 
 			break;
-		case 000005:
+		case 5:
 			// MDR <- M(MAR)
 			Application.getRegisterByName("MDR").setData(
 					Memory.getInstance()
@@ -158,7 +165,7 @@ public class Utils {
 
 			// TODO test underflow
 			break;
-		case 000006:
+		case 6:
 			t1 = Application.getRegisterByName(regName).getDecData();
 			Log.d("Operand 1 into T1");
 			t2 = immed[0];
@@ -167,7 +174,7 @@ public class Utils {
 			Log.d("ARR <- ADDER");
 
 			break;
-		case 000007:
+		case 7:
 			t1 = Application.getRegisterByName(regName).getDecData();
 			Log.d("Operand 1 into T1");
 			t2 = immed[0];
@@ -181,14 +188,14 @@ public class Utils {
 
 	public static String decompose_2(int opcode, String instr) {
 		StringBuffer code = new StringBuffer();
-		code.append(getBinaryFromDec(opcode, 6));
+		code.append(getStringFromIntArray(getBinaryFromDec(opcode, 6)));
 		String instr_2 = instr.substring(3);
 		instr_2 = instr_2.trim();// trim all leading and tailing
 									// whitespace.fault-tolerant.
 
 		int index = instr_2.indexOf(',');
 		int bin = Integer.valueOf(instr_2.substring(0, index));
-		code.append(getBinaryFromDec(bin, 2)); // R
+		code.append(getStringFromIntArray(getBinaryFromDec(bin, 2))); // R
 
 		code.append("000"); // IX and I
 
@@ -197,37 +204,37 @@ public class Utils {
 			code.replace(0, code.length(), "error!");
 		} else {
 			bin = Integer.valueOf(instr_2);
-			code.append(getBinaryFromDec(bin, 5));
+			code.append(getStringFromIntArray(getBinaryFromDec(bin, 5)));
 		}
 		return code.toString();
 	}
 
 	public static String decompose_3or4(int opcode, String instr) {
 		StringBuffer code = new StringBuffer();
-		code.append(getBinaryFromDec(opcode, 6));
+		code.append(Utils.getStringFromIntArray(getBinaryFromDec(opcode, 6)));
 		String instr_2 = instr.substring(3);
 		// trim all leading and tailing whitespaces.fault-tolerant.
 		instr_2 = instr_2.trim();
 
 		int index = instr_2.indexOf(',');
 		int bin = Integer.valueOf(instr_2.substring(0, index));
-		code.append(getBinaryFromDec(bin, 2)); // R
+		code.append(Utils.getStringFromIntArray(getBinaryFromDec(bin, 2))); // R
 
 		instr_2 = instr_2.substring(index + 1);
 		index = instr_2.indexOf(',');
 		bin = Integer.valueOf(instr_2.substring(0, index));
-		code.append(getBinaryFromDec(bin, 2)); // IX
+		code.append(Utils.getStringFromIntArray(getBinaryFromDec(bin, 2))); // IX
 
 		instr_2 = instr_2.substring(index + 1);
 		if (instr_2.indexOf(',') >= 0 && instr_2.indexOf('I') >= 0) {
-			code.append("0"); // I
+			code.append("1"); // I
 			index = instr_2.indexOf(',');
 			bin = Integer.valueOf(instr_2.substring(0, index));
-			code.append(getBinaryFromDec(bin, 5)); // Address
+			code.append(Utils.getStringFromIntArray(getBinaryFromDec(bin, 5))); // Address
 		} else {
-			code.append("1"); // I
+			code.append("0"); // I
 			bin = Integer.valueOf(instr_2);
-			code.append(getBinaryFromDec(bin, 5));
+			code.append(Utils.getStringFromIntArray(getBinaryFromDec(bin, 5)));
 		}
 		return code.toString();
 	}
