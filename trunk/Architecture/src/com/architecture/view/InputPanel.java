@@ -67,10 +67,10 @@ public class InputPanel extends JPanel {
 				Memory.getInstance().write(PCValue,
 						Utils.getIntArrayFromString(instruction));
 				System.out.println("instruction:"+instruction);
-				
-				for (int i=0;i<10;i++) {
-					System.out.println("Mem Loc at"+i+":"+Memory.getInstance().read(i).getDataInString());
-				}
+				// for DEBUG use
+//				for (int i=0;i<10;i++) {
+//					System.out.println("Mem Loc at"+i+":"+Memory.getInstance().read(i).getDataInString());
+//				}
 				CPU.getInstance().execute();
 			}
 		});
