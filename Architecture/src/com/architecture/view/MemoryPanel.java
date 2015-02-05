@@ -7,6 +7,8 @@ import java.awt.TextArea;
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
@@ -16,6 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import com.architecture.app.Application;
 import com.architecture.model.Memory;
 import com.architecture.util.Config;
 import com.architecture.util.Utils;
@@ -50,7 +53,7 @@ public class MemoryPanel extends JPanel {
 		data.setLocation(8, 320);
 
 		ADDRField.setEnabled(true);
-		ADDRField.setText("000000000000000000");
+		ADDRField.setText("00000000000           ");
 		ADDRField.setBounds(20, 280, 140, 28);
 		ADDRField.setEditable(false);
 		;
@@ -59,7 +62,7 @@ public class MemoryPanel extends JPanel {
 		// ADDRField.setColumns(20);
 
 		DATAField.setEnabled(true);
-		DATAField.setText("000000000000000000");
+		DATAField.setText("0000000000000000");
 		DATAField.setBounds(50, 320, 130, 28);
 		DATAField.setEditable(false);
 		;
@@ -73,6 +76,53 @@ public class MemoryPanel extends JPanel {
 		inputField3.setLocation(200, 322);
 		// inputField3.setBounds(200, 322, 40, 25);
 		inputField3.setText("0000");
+
+		inputField2.addKeyListener(new KeyAdapter() {
+			public void keyTyped(KeyEvent e) {
+				int keyChar = e.getKeyChar();
+				if (keyChar >= KeyEvent.VK_0 && keyChar <= KeyEvent.VK_9) {
+
+				} else {
+					e.consume();
+				}
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if (inputField2.getText() != null
+						&& !inputField2.getText().equals("")) {
+					System.out.println(Utils.getBinaryFromDecInString(
+							Integer.valueOf(inputField2.getText()),
+							Config.NUMBER_OF_BITS_OF_MEMORY_SIZE));
+					update(ADDRField, Utils.getBinaryFromDecInString(
+							Integer.valueOf(inputField2.getText()),
+							Config.NUMBER_OF_BITS_OF_MEMORY_SIZE));
+				}
+				super.keyReleased(e);
+			}
+		});
+		inputField3.addKeyListener(new KeyAdapter() {
+			public void keyTyped(KeyEvent e) {
+				int keyChar = e.getKeyChar();
+				if (keyChar >= KeyEvent.VK_0 && keyChar <= KeyEvent.VK_9) {
+
+				} else {
+					e.consume();
+				}
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if (inputField3.getText() != null
+						&& !inputField3.getText().equals("")) {
+
+					update(DATAField, Utils.getBinaryFromDecInString(
+							Integer.valueOf(inputField3.getText()),
+							Config.WORD_SIZE));
+				}
+				super.keyReleased(e);
+			}
+		});
 		query.setSize(68, 23);
 		query.setLocation(17, 370);
 		save.setSize(68, 23);
@@ -95,7 +145,8 @@ public class MemoryPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (!(Integer.valueOf(inputField2.getText())>=0 && Integer.valueOf(inputField2.getText())<=Config.MEMORY_SIZE)){
+				if (!(Integer.valueOf(inputField2.getText()) >= 0 && Integer
+						.valueOf(inputField2.getText()) <= Config.MEMORY_SIZE)) {
 					return;
 				}
 				int data = Memory.getInstance()
@@ -112,6 +163,7 @@ public class MemoryPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO
+
 				Memory.getInstance().write(
 						Integer.valueOf(inputField2.getText()),
 						Utils.getBinaryFromDec(
