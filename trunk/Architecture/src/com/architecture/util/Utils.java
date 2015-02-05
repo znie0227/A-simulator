@@ -51,7 +51,7 @@ public class Utils {
 	}
 
 	public static String getDecimalFromBinInString(int[] val) {
-		
+
 		return String.valueOf(getDecimalFromBin(val));
 	}
 
@@ -121,10 +121,11 @@ public class Utils {
 		}
 		return sb.toString();
 	}
+
 	public static int[] getIntArrayFromString(String val) {
 		int[] intArray = new int[val.length()];
 		for (int i = 0; i < val.length(); i++) {
-			intArray[i]=val.charAt(i)-48;
+			intArray[i] = val.charAt(i) - 48;
 		}
 		return intArray;
 	}
@@ -143,6 +144,9 @@ public class Utils {
 			Log.d("Operand 1 into T1");
 			t2 = Application.getRegisterByName("MDR").getDecData();
 			Log.d("Operand 2 into T2");
+			if (t1 + t2 > 65535) {
+				Application.getRegisterByName("CC").setDataByDec(0);
+			}
 			Application.getRegisterByName("ARR").setDataByDec(t1 + t2);
 			Log.d("ARR <- ADDER");
 
@@ -161,6 +165,9 @@ public class Utils {
 			t2 = Application.getRegisterByName("MDR").getDecData();
 			Log.d("Operand 2 into T2");
 			Application.getRegisterByName("ARR").setDataByDec(t1 - t2);
+			if (t1 - t2 < 0) {
+				Application.getRegisterByName("CC").setDataByDec(1);
+			}
 			Log.d("ARR <- ADDER");
 
 			// TODO test underflow
@@ -171,6 +178,9 @@ public class Utils {
 			t2 = immed[0];
 			Log.d("Operand 2 into T2");
 			Application.getRegisterByName("ARR").setDataByDec(t1 + t2);
+			if (t1 + t2 > 65535) {
+				Application.getRegisterByName("CC").setDataByDec(0);
+			}
 			Log.d("ARR <- ADDER");
 
 			break;
@@ -180,6 +190,9 @@ public class Utils {
 			t2 = immed[0];
 			Log.d("Operand 2 into T2");
 			Application.getRegisterByName("ARR").setDataByDec(t1 - t2);
+			if (t1 - t2 < 0) {
+				Application.getRegisterByName("CC").setDataByDec(1);
+			}
 			Log.d("ARR <- ADDER");
 			break;
 		}
@@ -200,7 +213,8 @@ public class Utils {
 		code.append("000"); // IX and I
 
 		instr_2 = instr_2.substring(index + 1);
-		if (instr_2.indexOf(',') >= 0 || instr_2.toUpperCase().indexOf('I') >= 0) {
+		if (instr_2.indexOf(',') >= 0
+				|| instr_2.toUpperCase().indexOf('I') >= 0) {
 			code.replace(0, code.length(), "error!");
 		} else {
 			bin = Integer.valueOf(instr_2);
@@ -226,7 +240,8 @@ public class Utils {
 		code.append(Utils.getStringFromIntArray(getBinaryFromDec(bin, 2))); // IX
 
 		instr_2 = instr_2.substring(index + 1);
-		if (instr_2.indexOf(',') >= 0 && instr_2.toUpperCase().indexOf('I') >= 0) {
+		if (instr_2.indexOf(',') >= 0
+				&& instr_2.toUpperCase().indexOf('I') >= 0) {
 			code.append("1"); // I
 			index = instr_2.indexOf(',');
 			bin = Integer.valueOf(instr_2.substring(0, index));
