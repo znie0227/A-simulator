@@ -1,5 +1,6 @@
 package com.architecture.view;
 
+import java.awt.Color;
 import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -37,7 +38,8 @@ public class RegisterPanel extends JPanel {
 	private JTextField display1 = new JTextField();// show content of register
 	private JTextField display2 = new JTextField();
 
-	private String currentReg;
+	private String currentReg = "R0";
+	private JButton currentBtn = R0;
 
 	public RegisterPanel() {
 
@@ -49,6 +51,8 @@ public class RegisterPanel extends JPanel {
 
 		R0.setSize(60, 25);
 		R0.setLocation(8, 55);
+		// initial background of R0
+		R0.setBackground(Color.GREEN);
 
 		R1.setLocation(105, 55);
 		R1.setSize(60, 25);
@@ -73,7 +77,7 @@ public class RegisterPanel extends JPanel {
 
 		MDR.setSize(60, 25);
 		MDR.setLocation(200, 130);
-		
+
 		PC.setSize(60, 25);
 		PC.setLocation(8, 170);
 
@@ -105,7 +109,7 @@ public class RegisterPanel extends JPanel {
 			public void keyTyped(KeyEvent e) {
 				int keyChar = e.getKeyChar();
 				if (keyChar >= KeyEvent.VK_0 && keyChar <= KeyEvent.VK_9) {
-					
+
 				} else {
 					e.consume();
 				}
@@ -114,8 +118,7 @@ public class RegisterPanel extends JPanel {
 			@Override
 			public void keyReleased(KeyEvent e) {
 				if (display2.getText() != null
-						&& !display2.getText().equals("")
-						&& currentReg != null) {
+						&& !display2.getText().equals("") && currentReg != null) {
 
 					update(display1, Utils.getBinaryFromDecInString(Integer
 							.valueOf(display2.getText()), Application
@@ -123,8 +126,7 @@ public class RegisterPanel extends JPanel {
 				}
 				super.keyReleased(e);
 			}
-			
-			
+
 		});
 
 		save.setSize(65, 25);
@@ -146,6 +148,7 @@ public class RegisterPanel extends JPanel {
 		this.add(save);
 		this.add(PC);
 
+		
 		addListener();
 
 		this.setVisible(true);
@@ -183,7 +186,12 @@ public class RegisterPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				currentReg = name;
+				if (btn != currentBtn) {
+					btn.setBackground(Color.GREEN);
+					currentBtn.setBackground(null);
+					currentReg = name;
+					currentBtn = btn;
+				}
 				update(display1, Application.getRegisterByName(name)
 						.getDataInString());
 				update(display2, Application.getRegisterByName(name)
