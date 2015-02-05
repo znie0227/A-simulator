@@ -1,10 +1,18 @@
 package com.architecture.view;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+
+import com.architecture.app.Application;
+import com.architecture.app.CPU;
+import com.architecture.model.Memory;
+import com.architecture.util.Utils;
 
 public class InputPanel extends JPanel {
 
@@ -46,6 +54,26 @@ public class InputPanel extends JPanel {
 		this.add(singleStep);
 
 		this.setVisible(true);
+
+		singleStep.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int PCValue = Application.getRegisterByName("PC").getDecData();
+				// push instruction into memory which PC point to
+				String instruction = Utils.getCodeFromInstr(inputField
+						.getText());
+						
+				Memory.getInstance().write(PCValue,
+						Utils.getIntArrayFromString(instruction));
+				System.out.println("instruction:"+instruction);
+				
+				for (int i=0;i<10;i++) {
+					System.out.println("Mem Loc at"+i+":"+Memory.getInstance().read(i).getDataInString());
+				}
+				CPU.getInstance().execute();
+			}
+		});
 	}
 
 }
