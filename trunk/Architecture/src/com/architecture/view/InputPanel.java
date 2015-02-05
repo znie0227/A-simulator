@@ -74,6 +74,14 @@ public class InputPanel extends JPanel {
 				CPU.getInstance().execute();
 			}
 		});
+		
+		clear.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				inputField.setText("");
+			}
+		});
 	}
 
 }
