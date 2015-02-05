@@ -2,8 +2,6 @@ package com.architecture.app;
 
 import com.architecture.model.Log;
 import com.architecture.model.Memory;
-import com.architecture.model.Register;
-import com.architecture.util.Config;
 import com.architecture.util.Constants;
 import com.architecture.util.Utils;
 
@@ -28,6 +26,8 @@ public class CPU {
 	}
 
 	public void execute() {
+		// reset CC
+		Application.getRegisterByName("CC").setDataByDec(15);
 		if (state != Constants.CPU_STATE_IDLE) {
 			return;
 		}
@@ -131,11 +131,7 @@ public class CPU {
 	 */
 	private void executeCertainInstruction(String opcode) {
 
-		// Get EA
-		// int EA = Utils.getEffectiveAddressInDec(ins);
 		String registerName;
-		Register reg;
-		int regData, memoryData;
 		System.out.println(Utils.getDecimalFromBin(opcode));
 		switch (Utils.getDecimalFromBin(opcode)) {
 		// TODO
@@ -198,6 +194,9 @@ public class CPU {
 			// RF[RFI] = ARR
 			Application.getRegisterByName(registerName).setData(
 					Application.getRegisterByName("ARR").getData());
+			if (Application.getRegisterByName("CC").getDecData()==0) {
+				Log.d("OVERFLOW!!!");
+			}
 			Log.d("RF[RFI] = ARR");
 			// reg = Application.getRegisterByName(registerName);
 			// regData = reg.getDecData();
@@ -212,6 +211,9 @@ public class CPU {
 			// RF[RFI] = ARR
 			Application.getRegisterByName(registerName).setData(
 					Application.getRegisterByName("ARR").getData());
+			if (Application.getRegisterByName("CC").getDecData()==1) {
+				Log.d("UNDERFLOW!!!");
+			}
 			Log.d("RF[RFI] = ARR");
 			// reg = Application.getRegisterByName(registerName);
 			// regData = reg.getDecData();
@@ -226,6 +228,9 @@ public class CPU {
 			// RF[RFI] = ARR
 			Application.getRegisterByName(registerName).setData(
 					Application.getRegisterByName("ARR").getData());
+			if (Application.getRegisterByName("CC").getDecData()==0) {
+				Log.d("OVERFLOW!!!");
+			}
 			Log.d("RF[RFI] = ARR");
 			// reg = Application.getRegisterByName(registerName);
 			// regData = reg.getDecData();
@@ -239,6 +244,9 @@ public class CPU {
 			// RF[RFI] = ARR
 			Application.getRegisterByName(registerName).setData(
 					Application.getRegisterByName("ARR").getData());
+			if (Application.getRegisterByName("CC").getDecData()==1) {
+				Log.d("UNDERFLOW!!!");
+			}
 			Log.d("RF[RFI] = ARR");
 			// reg = Application.getRegisterByName(registerName);
 			// regData = reg.getDecData();
