@@ -200,7 +200,7 @@ public class Utils {
 		code.append("000"); // IX and I
 
 		instr_2 = instr_2.substring(index + 1);
-		if (instr_2.indexOf(',') >= 0 || instr_2.indexOf('I') >= 0) {
+		if (instr_2.indexOf(',') >= 0 || instr_2.toUpperCase().indexOf('I') >= 0) {
 			code.replace(0, code.length(), "error!");
 		} else {
 			bin = Integer.valueOf(instr_2);
@@ -226,7 +226,7 @@ public class Utils {
 		code.append(Utils.getStringFromIntArray(getBinaryFromDec(bin, 2))); // IX
 
 		instr_2 = instr_2.substring(index + 1);
-		if (instr_2.indexOf(',') >= 0 && instr_2.indexOf('I') >= 0) {
+		if (instr_2.indexOf(',') >= 0 && instr_2.toUpperCase().indexOf('I') >= 0) {
 			code.append("1"); // I
 			index = instr_2.indexOf(',');
 			bin = Integer.valueOf(instr_2.substring(0, index));
