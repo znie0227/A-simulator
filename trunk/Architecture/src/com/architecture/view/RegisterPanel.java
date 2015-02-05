@@ -120,10 +120,6 @@ public class RegisterPanel extends JPanel {
 					update(display1, Utils.getBinaryFromDecInString(Integer
 							.valueOf(display2.getText()), Application
 							.getRegisterByName(currentReg).getSize()));
-					System.out.println(Utils.getBinaryFromDecInString(
-							Integer.valueOf(display2.getText()),
-							Application.getRegisterByName(currentReg)
-									.getSize()));
 				}
 				super.keyReleased(e);
 			}
@@ -177,7 +173,6 @@ public class RegisterPanel extends JPanel {
 				} else {
 					System.out.println("Select a register first.");
 				}
-				System.out.println("save");
 			}
 		});
 
