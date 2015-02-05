@@ -91,9 +91,9 @@ public class MemoryPanel extends JPanel {
 			public void keyReleased(KeyEvent e) {
 				if (inputField2.getText() != null
 						&& !inputField2.getText().equals("")) {
-					System.out.println(Utils.getBinaryFromDecInString(
-							Integer.valueOf(inputField2.getText()),
-							Config.NUMBER_OF_BITS_OF_MEMORY_SIZE));
+//					System.out.println(Utils.getBinaryFromDecInString(
+//							Integer.valueOf(inputField2.getText()),
+//							Config.NUMBER_OF_BITS_OF_MEMORY_SIZE));
 					update(ADDRField, Utils.getBinaryFromDecInString(
 							Integer.valueOf(inputField2.getText()),
 							Config.NUMBER_OF_BITS_OF_MEMORY_SIZE));
