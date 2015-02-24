@@ -24,7 +24,7 @@ public class InputPanel extends JPanel {
 	private JTextArea inputField = new JTextArea();
 
 	private JButton clear = new JButton("Clear");
-	private JButton PowerOn = new JButton("PowerOn");
+	private JButton PowerOn = new JButton("IPL");
 	private JButton PowerOff = new JButton("PowerOff");
 
 	private JButton singleStep = new JButton("Single Step");
@@ -32,7 +32,7 @@ public class InputPanel extends JPanel {
 	public InputPanel() {
 		this.setLayout(null);
 		AbstractButton inputPanel;
-		this.setBorder(BorderFactory.createTitledBorder("Input"));
+		this.setBorder(BorderFactory.createTitledBorder("Console Keyboard"));
 
 		inputField.setLayout(null);
 

@@ -16,6 +16,7 @@ public class MainFrame extends JFrame {
 	private CachePanel cachePanel;
 	private ConsolePanel consolePanel;
 	private RecordPanel recordPanel;
+	private IOSystemPrinterPanel iosystemprinterPanel;
 
 	public MainFrame() {
 		
@@ -60,6 +61,9 @@ public class MainFrame extends JFrame {
 		recordPanel=new RecordPanel();
 		this.add(recordPanel);
 		
+		iosystemprinterPanel=new IOSystemPrinterPanel();
+		this.add(iosystemprinterPanel);
+		this.setVisible(true);
 	}
 	
 	

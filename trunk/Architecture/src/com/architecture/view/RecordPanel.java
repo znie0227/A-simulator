@@ -13,7 +13,7 @@ public class RecordPanel extends JPanel{
 	{
 		
 		this.setLayout(null);
-		this.setBounds(608,0,200,650);
+		this.setBounds(608,250,210,400);
 		this.setVisible(true);
 		this.setBorder(BorderFactory.createTitledBorder("Record"));
 	}
