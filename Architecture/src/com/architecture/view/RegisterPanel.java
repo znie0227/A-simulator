@@ -39,7 +39,7 @@ public class RegisterPanel extends JPanel {
 	private JButton IR_I =new JButton("IR_I");
 	private JButton AL =new JButton("AL");
 	private JButton FR_0 =new JButton("FR_0");
-	private JButton FR_1 =new JButton("Fr_1");
+	private JButton FR_1 =new JButton("FR_1");
 	private JButton LR =new JButton("LR");
 	private JButton COUNT =new JButton("COUNT");
 	
@@ -57,66 +57,66 @@ public class RegisterPanel extends JPanel {
 
 		// components in P1
 		this.setSize(300, 250);
-		this.setBorder(BorderFactory.createTitledBorder("Register"));
+		this.setBorder(BorderFactory.createTitledBorder("Registers"));
 
-		R0.setSize(40, 20);
+		R0.setSize(60, 20);
 		R0.setLocation(25, 55);
 		// initial background of R0
 		R0.setBackground(Color.GREEN);
 
 		R1.setLocation(90, 55);
-		R1.setSize(40, 20);
+		R1.setSize(60, 20);
 
-		R2.setSize(40, 20);
+		R2.setSize(60, 20);
 		R2.setLocation(155, 55);
 
-		R3.setSize(40, 20);
+		R3.setSize(60, 20);
 		R3.setLocation(220, 55);
 
-		X1.setSize(40, 20);
+		X1.setSize(60, 20);
 		X1.setLocation(25, 90);
 
-		X2.setSize(40, 20);
+		X2.setSize(60, 20);
 		X2.setLocation(90, 90);
 
-		X3.setSize(40, 20);
+		X3.setSize(60, 20);
 		X3.setLocation(155, 90);
 
-		MAR.setSize(40, 20);
+		MAR.setSize(60, 20);
 		MAR.setLocation(220, 90);
 
-		MDR.setSize(40, 20);
+		MDR.setSize(60, 20);
 		MDR.setLocation(25, 130);
 
-		PC.setSize(40, 20);
+		PC.setSize(60, 20);
 		PC.setLocation(90, 130);
 		
-		CC.setSize(40, 20);
+		CC.setSize(60, 20);
 		CC.setLocation(155, 130);
 		
-		EA.setSize(40, 20);
+		EA.setSize(60, 20);
 		EA.setLocation(220, 130);
 		
-		IR_R.setSize(40, 20);
+		IR_R.setSize(60, 20);
 		IR_R.setLocation(25, 170);
 		
-		IR_X.setSize(40, 20);
+		IR_X.setSize(60, 20);
 		IR_X.setLocation(90, 170);
 		
-		IR_I.setSize(40, 20);
+		IR_I.setSize(60, 20);
 		IR_I.setLocation(155, 170);
 		
-		AL.setSize(40, 20);
+		AL.setSize(60, 20);
 		AL.setLocation(220, 170);
 		
-		FR_0.setSize(40, 20);
+		FR_0.setSize(65, 20);
 		FR_0.setLocation(25, 210);
 		
-		FR_1.setSize(40, 20);
-		FR_1.setLocation(90, 210);
+		FR_1.setSize(65, 20);
+		FR_1.setLocation(95, 210);
 		
-		LR.setSize(40, 20);
-		LR.setLocation(155, 210);
+		LR.setSize(55, 20);
+		LR.setLocation(165, 210);
 		
 		//COUNT.setSize(40, 20);
 		//COUNT.setLocation(220, 210);
