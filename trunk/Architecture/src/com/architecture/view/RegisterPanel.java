@@ -32,7 +32,15 @@ public class RegisterPanel extends JPanel {
 	private JButton MAR = new JButton("MAR");
 	private JButton MDR = new JButton("MDR");
 	private JButton PC = new JButton("PC");
-
+	private JButton CC = new JButton("CC");
+	private JButton EA = new JButton("EA");
+	private JButton IR_R = new JButton("IR_R");
+	private JButton IR_X =new JButton("IR_X");
+	private JButton IR_I =new JButton("IR_I");
+	private JButton AL =new JButton("AL");
+	private JButton FR_0 =new JButton("FR_0");
+	private JButton FR_1 =new JButton("Fr_1");
+	
 	private JButton save = new JButton("Save");
 
 	private JTextField display1 = new JTextField();// show content of register
@@ -49,37 +57,61 @@ public class RegisterPanel extends JPanel {
 		this.setSize(300, 250);
 		this.setBorder(BorderFactory.createTitledBorder("Register"));
 
-		R0.setSize(60, 25);
-		R0.setLocation(8, 55);
+		R0.setSize(40, 20);
+		R0.setLocation(25, 55);
 		// initial background of R0
 		R0.setBackground(Color.GREEN);
 
-		R1.setLocation(105, 55);
-		R1.setSize(60, 25);
+		R1.setLocation(90, 55);
+		R1.setSize(40, 20);
 
-		R2.setSize(60, 25);
-		R2.setLocation(200, 55);
+		R2.setSize(40, 20);
+		R2.setLocation(155, 55);
 
-		R3.setSize(60, 25);
-		R3.setLocation(8, 90);
+		R3.setSize(40, 20);
+		R3.setLocation(220, 55);
 
-		X1.setSize(60, 25);
-		X1.setLocation(105, 90);
+		X1.setSize(40, 20);
+		X1.setLocation(25, 90);
 
-		X2.setSize(60, 25);
-		X2.setLocation(200, 90);
+		X2.setSize(40, 20);
+		X2.setLocation(90, 90);
 
-		X3.setSize(60, 25);
-		X3.setLocation(8, 130);
+		X3.setSize(40, 20);
+		X3.setLocation(155, 90);
 
-		MAR.setSize(60, 25);
-		MAR.setLocation(105, 130);
+		MAR.setSize(40, 20);
+		MAR.setLocation(220, 90);
 
-		MDR.setSize(60, 25);
-		MDR.setLocation(200, 130);
+		MDR.setSize(40, 20);
+		MDR.setLocation(25, 130);
 
-		PC.setSize(60, 25);
-		PC.setLocation(8, 170);
+		PC.setSize(40, 20);
+		PC.setLocation(90, 130);
+		
+		CC.setSize(40, 20);
+		CC.setLocation(155, 130);
+		
+		EA.setSize(40, 20);
+		EA.setLocation(220, 130);
+		
+		IR_R.setSize(40, 20);
+		IR_R.setLocation(25, 170);
+		
+		IR_X.setSize(40, 20);
+		IR_X.setLocation(90, 170);
+		
+		IR_I.setSize(40, 20);
+		IR_I.setLocation(155, 170);
+		
+		AL.setSize(40, 20);
+		AL.setLocation(220, 170);
+		
+		FR_0.setSize(40, 20);
+		FR_0.setLocation(25, 210);
+		
+		FR_1.setSize(40, 20);
+		FR_1.setLocation(90, 210);
 
 		Label l1 = new Label("Value"); // 内容根据编程改，这里只是做个例子
 		l1.setLocation(10, 15);
@@ -147,6 +179,14 @@ public class RegisterPanel extends JPanel {
 		this.add(MDR);
 		this.add(save);
 		this.add(PC);
+		this.add(CC);
+		this.add(EA);
+		this.add(IR_R);
+		this.add(IR_X);
+		this.add(IR_I);
+		this.add(AL);
+		this.add(FR_0);
+		this.add(FR_1);
 
 		
 		addListener();
