@@ -27,7 +27,7 @@ public class CPU {
 
 	public void execute() {
 		// reset CC
-		Application.getRegisterByName("CC").setDataByDec(15);
+		Application.getRegisterByName("CC").setDataByDec(0);
 		if (state != Constants.CPU_STATE_IDLE) {
 			return;
 		}
@@ -111,7 +111,7 @@ public class CPU {
 		// compute EA
 		EA = Utils.getEffectiveAddressInDec(Application.getRegisterByName("IR")
 				.getDataInString());
-		Log.d("compute EA" + EA);
+		Log.d("compute EA:" + EA);
 
 		// Move EA to MAR
 		Application.getRegisterByName("MAR").setDataByDec(EA);
@@ -131,7 +131,7 @@ public class CPU {
 	 */
 	private void executeCertainInstruction(String opcode) {
 
-		String registerName;
+		String registerName, registerName1, regPlus1Name;
 		System.out.println(Utils.getDecimalFromBin(opcode));
 		switch (Utils.getDecimalFromBin(opcode)) {
 		// TODO
@@ -190,11 +190,12 @@ public class CPU {
 			// AMR
 			registerName = "R" + Utils.getDecimalFromBin(rfi);
 			Utils.adder(opcode, registerName);
-			System.out.println(Application.getRegisterByName("ARR").getDataInString());
+			System.out.println(Application.getRegisterByName("ARR")
+					.getDataInString());
 			// RF[RFI] = ARR
 			Application.getRegisterByName(registerName).setData(
 					Application.getRegisterByName("ARR").getData());
-			if (Application.getRegisterByName("CC").getDecData()==0) {
+			if (Application.getRegisterByName("CC").getDataAtPosition(0) == 1) {
 				Log.d("OVERFLOW!!!");
 			}
 			Log.d("RF[RFI] = ARR");
@@ -211,7 +212,7 @@ public class CPU {
 			// RF[RFI] = ARR
 			Application.getRegisterByName(registerName).setData(
 					Application.getRegisterByName("ARR").getData());
-			if (Application.getRegisterByName("CC").getDecData()==1) {
+			if (Application.getRegisterByName("CC").getDataAtPosition(1) == 1) {
 				Log.d("UNDERFLOW!!!");
 			}
 			Log.d("RF[RFI] = ARR");
@@ -228,7 +229,7 @@ public class CPU {
 			// RF[RFI] = ARR
 			Application.getRegisterByName(registerName).setData(
 					Application.getRegisterByName("ARR").getData());
-			if (Application.getRegisterByName("CC").getDecData()==0) {
+			if (Application.getRegisterByName("CC").getDataAtPosition(0) == 1) {
 				Log.d("OVERFLOW!!!");
 			}
 			Log.d("RF[RFI] = ARR");
@@ -244,7 +245,7 @@ public class CPU {
 			// RF[RFI] = ARR
 			Application.getRegisterByName(registerName).setData(
 					Application.getRegisterByName("ARR").getData());
-			if (Application.getRegisterByName("CC").getDecData()==1) {
+			if (Application.getRegisterByName("CC").getDataAtPosition(1) == 1) {
 				Log.d("UNDERFLOW!!!");
 			}
 			Log.d("RF[RFI] = ARR");
@@ -266,11 +267,236 @@ public class CPU {
 			Memory.getInstance().write(EA,
 					Application.getRegisterByName(registerName).getData());
 			break;
+		/*
+		 * Transfer Instructions
+		 */
+		case 10:
+			// JZ jump if zero
+			// Jump If Zero:
+			// If c(r) = 0, then PC  EA or c(EA), if I bit set;
+			// Else PC <- PC+1
+			registerName = "R" + Utils.getDecimalFromBin(rfi);
+			if (Application.getRegisterByName(registerName).getDecData() == 0) {
+				Application.getRegisterByName("PC").setData(
+						Application.getRegisterByName("MAR").getData());
+			} else {
+				PCIncrement();
+			}
+
+			break;
+		case 11:
+			// JNE jump if not equal
+			// If c(r) != 0, then PC <- EA or c(EA) , if I bit set;
+			// Else PC <- PC + 1
+			registerName = "R" + Utils.getDecimalFromBin(rfi);
+			if (!(Application.getRegisterByName(registerName).getDecData() == 0)) {
+				Application.getRegisterByName("PC").setData(
+						Application.getRegisterByName("MAR").getData());
+			} else {
+				PCIncrement();
+			}
+			break;
+		case 12:
+			// JCC Jump If Condition Code
+			// cc replaces r for this instruction
+			// cc takes values 0, 1, 2, 3 as above and specifies the bit in the
+			// Condition Code Register to check;
+			// If cc bit = 1, PC  EA or c(EA), if I bit set;
+			// Else PC <- PC + 1
+			registerName = "CC";
+			// TODO
+
+			break;
+		case 13:
+			// JMA Unconditional Jump To Address
+			// PC <- EA, if I bit not set; PC  c(EA), if I bit set
+			Application.getRegisterByName("PC").setData(
+					Application.getRegisterByName("MAR").getData());
+			break;
+		case 14:
+			// JSR Jump and Save Return Address
+			// R3 <- PC+1;
+			// PC <- EA or PC <- c(EA), if I bit set
+			// R0 should contain pointer to arguments
+			// Argument list should end with –17777 value
+
+			Application.getRegisterByName("R3").setDataByDec(
+					Application.getRegisterByName("PC").getDecData() + 1);
+			Application.getRegisterByName("PC").setData(
+					Application.getRegisterByName("MAR").getData());
+			break;
+		case 15:
+			// RFS Return From Subroutine
+			// Return From Subroutine w/ return code as Immed portion (optional)
+			// stored in the instruction’s address field.
+			// R0 <- Immed; PC <- c(R3)
+			// IX, I fields are ignored.
+			Application.getRegisterByName("R0").setData(
+					Application.getRegisterByName("MAR").getData());
+			Application.getRegisterByName("PC").setData(
+					Application.getRegisterByName("R3").getData());
+
+			break;
+		case 16:
+			// SOB Subtract One and Branch
+			// r <- c(r) – 1
+			// If c(r) > 0, PC <- EA; but PC <- c(EA), if I bit set;
+			// Else PC <- PC + 1
+			registerName = registerName = "R" + Utils.getDecimalFromBin(rfi);
+			Application.getRegisterByName(registerName)
+					.setDataByDec(
+							Application.getRegisterByName(registerName)
+									.getDecData() - 1);
+			if (Application.getRegisterByName(registerName).getDecData() > 0) {
+				Application.getRegisterByName("PC").setData(
+						Application.getRegisterByName("MAR").getData());
+			} else {
+				PCIncrement();
+			}
+			break;
+		case 17:
+			// JGE Jump Greater Than or Equal To
+			// If c(r) >= 0, then PC <- EA or c(EA) , if I bit set;
+			// Else PC <- PC + 1
+
+			registerName = registerName = "R" + Utils.getDecimalFromBin(rfi);
+			if (Application.getRegisterByName(registerName).getDecData() > 0) {
+				Application.getRegisterByName("PC").setData(
+						Application.getRegisterByName("MAR").getData());
+			} else {
+				PCIncrement();
+			}
+
+			break;
+		case 20:
+			// MLT
+			// Multiply Register by Register
+			// rx, rx+1 <- c(rx) * c(ry)
+			// rx must be 0 or 2
+			// ry must be 0 or 2
+			// rx contains the high order bits, rx+1 contains the low order bits
+			// of the result
+			// Set OVERFLOW flag, if overflow
+			// TODO check rx and ry-->0 or 2
+			registerName = "R" + Utils.getDecimalFromBin(rfi);
+			// in this situation, there is no index register, so we can get ry
+			// using bits that location
+			registerName1 = "R" + Utils.getDecimalFromBin(ix);
+
+			Utils.mult(opcode, registerName, registerName1);
+			System.out.println(Application.getRegisterByName("MRR")
+					.getDataInString());
+			// RF[RFI] = higher order bits of MRR
+			Application.getRegisterByName(registerName).setDataByString(
+					Application.getRegisterByName("MRR").getDataInString()
+							.substring(0, 16));
+			// RF[RFI+1] = lower order bits of MRR
+			regPlus1Name = "R" + (Utils.getDecimalFromBin(rfi) + 1);
+			Application.getRegisterByName(regPlus1Name).setDataByString(
+					Application.getRegisterByName("MRR").getDataInString()
+							.substring(16, 32));
+			if (Application.getRegisterByName("CC").getDataAtPosition(0) == 1) {
+				Log.d("OVERFLOW!!!");
+			}
+			Log.d("Rx = MRR[0-15]\nRy = MRR[16-31]");
+
+			break;
+		case 21:
+			// DVD
+			// Divide Register by Register
+			// rx, rx+1 <- c(rx)/ c(ry)
+			// rx must be 0 or 2
+			// rx contains the quotient; rx+1 contains the remainder
+			// ry must be 0 or 2
+			// If c(ry) = 0, set cc(3) to 1 (set DIVZERO flag)
+
+			registerName = "R" + Utils.getDecimalFromBin(rfi);
+			// in this situation, there is no index register, so we can get ry
+			// using bits that location
+			registerName1 = "R" + Utils.getDecimalFromBin(ix);
+
+			Utils.mult(opcode, registerName, registerName1);
+			System.out.println(Application.getRegisterByName("MRR")
+					.getDataInString());
+			// RF[RFI] = higher order bits of MRR
+			Application.getRegisterByName(registerName).setDataByString(
+					Application.getRegisterByName("MRR").getDataInString()
+							.substring(0, 16));
+			// RF[RFI+1] = lower order bits of MRR
+			regPlus1Name = "R" + (Utils.getDecimalFromBin(rfi) + 1);
+			Application.getRegisterByName(regPlus1Name).setDataByString(
+					Application.getRegisterByName("MRR").getDataInString()
+							.substring(16, 32));
+			if (Application.getRegisterByName("CC").getDataAtPosition(2) == 1) {
+				Log.d("DIVZERO!!!");
+			}
+			Log.d("Rx = MRR[0-15]\nRy = MRR[16-31]");
+
+			break;
+		case 22:
+			// TRR
+			// Test the Equality of Register and Register
+			// If c(rx) = c(ry), set cc(4) <-1; else, cc(4) <- 0
+			registerName = "R" + Utils.getDecimalFromBin(rfi);
+			// in this situation, there is no index register, so we can get ry
+			// using bits that location
+			registerName1 = "R" + Utils.getDecimalFromBin(ix);
+			if (Application.getRegisterByName(registerName).getDecData() == Application
+					.getRegisterByName(registerName1).getDecData()) {
+				Application.getRegisterByName("CC").setDataByBitPosition(1, 3);
+				Log.d("Equal. Set CC[3]=1");
+			} else {
+				Application.getRegisterByName("CC").setDataByBitPosition(0, 3);
+				Log.d("Not Equal. Set CC[3]=0");
+			}
+			break;
+		case 23:
+			// AND
+			// Logical And of Register and Register
+			// c(rx) <- c(rx) AND c(ry)
+			registerName = "R" + Utils.getDecimalFromBin(rfi);
+			// in this situation, there is no index register, so we can get ry
+			// using bits that location
+			registerName1 = "R" + Utils.getDecimalFromBin(ix);
+
+			Utils.logic(opcode, registerName, registerName1);
+			Application.getRegisterByName(registerName).setData(Application.getRegisterByName("LRR").getData());
+			Log.d("RF[RFI1] <- LRR");
+			break;
+		case 24:
+			// ORR
+			// Logical Or of Register and Register
+			// c(rx)  c(rx) OR c(ry)
+			registerName = "R" + Utils.getDecimalFromBin(rfi);
+			// in this situation, there is no index register, so we can get ry
+			// using bits that location
+			registerName1 = "R" + Utils.getDecimalFromBin(ix);
+
+			Utils.logic(opcode, registerName, registerName1);
+			Application.getRegisterByName(registerName).setData(Application.getRegisterByName("LRR").getData());
+			Log.d("RF[RFI1] <- LRR");
+			break;
+		case 25:
+			// NOT
+			// Logical Not of Register To Register
+			// C(rx) <- NOT c(rx)
+			registerName = "R" + Utils.getDecimalFromBin(rfi);
+			// in this situation, there is no index register, so we can get ry
+			// using bits that location
+			registerName1 = "R" + Utils.getDecimalFromBin(ix);
+
+			Utils.logic(opcode, registerName, registerName1);
+			Application.getRegisterByName(registerName).setData(Application.getRegisterByName("LRR").getData());
+			Log.d("RF[RFI1] <- LRR");
+
+			break;
 		}
 	}
 
 	private void PCIncrement() {
-		// TODO
+		int currentPCPos = Application.getRegisterByName("PC").getDecData();
+		Application.getRegisterByName("PC").setDataByDec(currentPCPos + 1);
+		Log.d("PC <- PC + 1 (PC Increment)");
 	}
 
 }
