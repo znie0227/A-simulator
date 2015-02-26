@@ -54,7 +54,7 @@ public class Application {
 		
 		addRegister("ARR", Config.ARR_SIZE);
 		addRegister("MRR", Config.MRR_SIZE);
-//		addRegister("SRR", Config.MDR_SIZE);
+		addRegister("SRR", Config.SRR_SIZE);
 //		addRegister("CRR", Config.MDR_SIZE);
 		addRegister("LRR", Config.LRR_SIZE);
 		
