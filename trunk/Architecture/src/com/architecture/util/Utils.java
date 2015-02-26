@@ -662,9 +662,9 @@ public class Utils {
 						(int) InstructionSet.instructionMap.get("JZ"), instr, 2));
 			}
 			
-			else if (instr.toUpperCase().startsWith("JNZ")) {
+			else if (instr.toUpperCase().startsWith("JNE")) {
 				code.append(decompose_3or4(
-						(int) InstructionSet.instructionMap.get("JNZ"), instr, 3));
+						(int) InstructionSet.instructionMap.get("JNE"), instr, 3));
 			}
 			
 			else if (instr.toUpperCase().startsWith("JCC")) {
