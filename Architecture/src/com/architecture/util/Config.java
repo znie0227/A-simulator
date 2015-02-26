@@ -20,7 +20,7 @@ public class Config {
 	
 	public static final int ARR_SIZE=16;
 	public static final int MRR_SIZE=32;
-//	public static final int SRR_SIZE=16;
+	public static final int SRR_SIZE=16;
 //	public static final int CRR_SIZE=16;
 	public static final int LRR_SIZE=16;
 	
