@@ -130,6 +130,13 @@ public class Utils {
 		return intArray;
 	}
 
+	/**
+	 * Perform add and sub actions
+	 * 
+	 * @param opcode
+	 * @param regName
+	 * @param regName1
+	 */
 	public static void adder(String opcode, String regName, int... immed) {
 		int t1, t2;
 		switch (getDecimalFromBin(opcode)) {
@@ -145,7 +152,7 @@ public class Utils {
 			t2 = Application.getRegisterByName("MDR").getDecData();
 			Log.d("Operand 2 into T2");
 			if (t1 + t2 > 65535) {
-				Application.getRegisterByName("CC").setDataByDec(0);
+				Application.getRegisterByName("CC").setDataByBitPosition(1, 0);
 			}
 			Application.getRegisterByName("ARR").setDataByDec(t1 + t2);
 			Log.d("ARR <- ADDER");
@@ -166,7 +173,7 @@ public class Utils {
 			Log.d("Operand 2 into T2");
 			Application.getRegisterByName("ARR").setDataByDec(t1 - t2);
 			if (t1 - t2 < 0) {
-				Application.getRegisterByName("CC").setDataByDec(1);
+				Application.getRegisterByName("CC").setDataByBitPosition(1, 1);
 			}
 			Log.d("ARR <- ADDER");
 
@@ -179,7 +186,7 @@ public class Utils {
 			Log.d("Operand 2 into T2");
 			Application.getRegisterByName("ARR").setDataByDec(t1 + t2);
 			if (t1 + t2 > 65535) {
-				Application.getRegisterByName("CC").setDataByDec(0);
+				Application.getRegisterByName("CC").setDataByBitPosition(1, 0);
 			}
 			Log.d("ARR <- ADDER");
 
@@ -191,12 +198,210 @@ public class Utils {
 			Log.d("Operand 2 into T2");
 			Application.getRegisterByName("ARR").setDataByDec(t1 - t2);
 			if (t1 - t2 < 0) {
-				Application.getRegisterByName("CC").setDataByDec(1);
+				Application.getRegisterByName("CC").setDataByBitPosition(1, 1);
 			}
 			Log.d("ARR <- ADDER");
 			break;
 		}
 
+	}
+
+	/**
+	 * Perform multi and div actions
+	 * 
+	 * @param opcode
+	 * @param regName
+	 * @param regName1
+	 */
+	public static void mult(String opcode, String regName, String regName1) {
+		long t1, t2;
+		switch (getDecimalFromBin(opcode)) {
+		case 20:
+			// MLT
+			// MDR <- c(ry)
+			Application.getRegisterByName("MDR").setData(
+					Application.getRegisterByName(regName1).getData());
+			Log.d("MDR <- c(ry)");
+			t1 = Application.getRegisterByName(regName).getDecData();
+			Log.d("Operand 1 into T1");
+			t2 = Application.getRegisterByName("MDR").getDecData();
+			Log.d("Operand 2 into T2");
+			if (t1 * t2 > 4294967296l) {
+				Application.getRegisterByName("CC").setDataByBitPosition(1, 0);
+			}
+			Application.getRegisterByName("ARR").setDataByLongDec(t1 * t2);
+			Log.d("MRR <- MULT");
+
+			// TODO test overflow
+
+			break;
+		case 21:
+			// DVD
+			// MDR <- c(ry)
+			Application.getRegisterByName("MDR").setData(
+					Application.getRegisterByName(regName1).getData());
+			Log.d("MDR <- c(ry)");
+			t1 = Application.getRegisterByName(regName).getDecData();
+			Log.d("Operand 1 into T1");
+			t2 = Application.getRegisterByName("MDR").getDecData();
+			Log.d("Operand 2 into T2");
+			if (t2 == 0) {
+				Application.getRegisterByName("CC").setDataByBitPosition(1, 2);
+				return;
+			}
+			int quotient,
+			remainder;
+			quotient = (int) (t1 / t2);
+			remainder = (int) (t1 % t2);
+			String result = quotient + "" + remainder;
+			Application.getRegisterByName("MRR").setDataByString(result);
+			Log.d("MRR <- MULT");
+
+			// TODO test underflow
+			break;
+
+		}
+
+	}
+
+	/**
+	 * Perform logic actions
+	 * 
+	 * @param opcode
+	 * @param regName
+	 * @param regName1
+	 */
+	public static void logic(String opcode, String regName, String... regName1) {
+		int[] t1, t2;
+		switch (getDecimalFromBin(opcode)) {
+		case 23:
+			// AND
+			t1 = Application.getRegisterByName(regName).getData();
+			Log.d("Operand 1 into T1");
+			t2 = Application.getRegisterByName(regName1[0]).getData();
+			Log.d("Operand 2 into T2");
+			for (int i = 0; i < t1.length; i++) {
+				if (t1[i] == 1 && t2[i] == 1) {
+					t1[i] = 1;
+				} else {
+					t1[i] = 0;
+				}
+			}
+			Application.getRegisterByName("LRR").setData(t1);
+			Log.d("LRR <- Logic");
+			break;
+		case 24:
+			// OR
+			t1 = Application.getRegisterByName(regName).getData();
+			Log.d("Operand 1 into T1");
+			t2 = Application.getRegisterByName(regName1[0]).getData();
+			Log.d("Operand 2 into T2");
+			for (int i = 0; i < t1.length; i++) {
+				if (t1[i] == 0 && t2[i] == 0) {
+					t1[i] = 0;
+				} else {
+					t1[i] = 1;
+				}
+			}
+			Application.getRegisterByName("LRR").setData(t1);
+			Log.d("LRR <- Logic");
+			break;
+		case 25:
+			// NOT
+			t1 = Application.getRegisterByName(regName).getData();
+			Log.d("Operand 1 into T1");
+			for (int i = 0; i < t1.length; i++) {
+				t1[i] = 1 - t1[i];
+			}
+			Application.getRegisterByName("LRR").setData(t1);
+			Log.d("LRR <- Logic");
+
+			break;
+		}
+
+	}
+
+	/**
+	 * Perform Shifting and rotating actions
+	 * 
+	 * @param opcode
+	 * @param regName
+	 * @param regName1
+	 */
+	public static void shifter(String opcode, String regName,
+			int arithOrLogic, int leftOrRight, int count) {
+		int[] t1;
+		switch (getDecimalFromBin(opcode)) {
+		case 31:
+			// SRC
+			t1 = Application.getRegisterByName(regName).getData();
+			Log.d("Operand 1 into T1");
+			shiftAndRotate(1, t1, arithOrLogic, leftOrRight, count);
+			Application.getRegisterByName("SRR").setData(t1);
+			Log.d("SRR <- Shifter");
+			break;
+		case 32:
+			// RRC
+			t1 = Application.getRegisterByName(regName).getData();
+			Log.d("Operand 1 into T1");
+			shiftAndRotate(0, t1, arithOrLogic, leftOrRight, count);
+			
+			Application.getRegisterByName("SRR").setData(t1);
+			Log.d("SRR <- Shifter");
+			break;
+		}
+
+	}
+
+	/**
+	 * @param shift_rotate
+	 *            1:shift 0:rotate
+	 * @param array
+	 * @param a_l
+	 *            l:1 a:0
+	 * @param l_r
+	 *            l:1 r:0
+	 * @param count
+	 * @return
+	 */
+	public static int[] shiftAndRotate(int shift_rotate, int[] array, int a_l,
+			int l_r, int count) {
+		int start = 1 - a_l;
+		for (int i = 0; i < count; i++) {
+			int temp;
+			if (l_r == 1) {
+				// left
+				temp = array[start];
+				for (int j = start; j < array.length - 1; j++) {
+					array[j] = array[j + 1];
+				}
+				if (shift_rotate == 0) {
+					array[array.length - 1] = temp;
+				} else {
+					array[array.length - 1] = 0;
+				}
+			} else {
+				// right
+				temp = array[array.length - 1];
+				for (int j = array.length - 1; j > start; j--) {
+					array[j] = array[j - 1];
+				}
+				if (shift_rotate == 0) {
+					// rotate
+					array[start] = temp;
+				} else {
+					// shift
+					if (a_l == 1) {
+						// logic
+						array[start] = 0;
+					} else {
+						// arithmetic
+						array[start]=array[0];
+					}
+				}
+			}
+		}
+		return array;
 	}
 
 	public static String decompose_2(int opcode, String instr, int length) {
