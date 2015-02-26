@@ -199,10 +199,10 @@ public class Utils {
 
 	}
 
-	public static String decompose_2(int opcode, String instr) {
+	public static String decompose_2(int opcode, String instr, int length) {
 		StringBuffer code = new StringBuffer();
 		code.append(getStringFromIntArray(getBinaryFromDec(opcode, 6)));
-		String instr_2 = instr.substring(3);
+		String instr_2 = instr.substring(length);
 		instr_2 = instr_2.trim();// trim all leading and tailing
 									// whitespace.fault-tolerant.
 
@@ -222,11 +222,39 @@ public class Utils {
 		}
 		return code.toString();
 	}
-
-	public static String decompose_3or4(int opcode, String instr) {
+	
+	public static String decompose_2or3(int opcode, String instr, int length) {
 		StringBuffer code = new StringBuffer();
 		code.append(Utils.getStringFromIntArray(getBinaryFromDec(opcode, 6)));
-		String instr_2 = instr.substring(3);
+		String instr_2 = instr.substring(length);
+		// trim all leading and tailing whitespaces.fault-tolerant.
+		instr_2 = instr_2.trim();
+		
+		code.append("00");
+
+		int index = instr_2.indexOf(',');
+		int bin = Integer.valueOf(instr_2.substring(0, index));
+		code.append(Utils.getStringFromIntArray(getBinaryFromDec(bin, 2))); // IX
+
+		instr_2 = instr_2.substring(index + 1);
+		if (instr_2.indexOf(',') >= 0
+				&& instr_2.toUpperCase().indexOf('I') >= 0) {
+			code.append("1"); // I
+			index = instr_2.indexOf(',');
+			bin = Integer.valueOf(instr_2.substring(0, index));
+			code.append(Utils.getStringFromIntArray(getBinaryFromDec(bin, 5))); // Address
+		} else {
+			code.append("0"); // I
+			bin = Integer.valueOf(instr_2);
+			code.append(Utils.getStringFromIntArray(getBinaryFromDec(bin, 5)));
+		}
+		return code.toString();
+	}
+
+	public static String decompose_3or4(int opcode, String instr, int length) {
+		StringBuffer code = new StringBuffer();
+		code.append(Utils.getStringFromIntArray(getBinaryFromDec(opcode, 6)));
+		String instr_2 = instr.substring(length);
 		// trim all leading and tailing whitespaces.fault-tolerant.
 		instr_2 = instr_2.trim();
 
@@ -253,6 +281,116 @@ public class Utils {
 		}
 		return code.toString();
 	}
+	
+	public static String decompose_FPIorV(int opcode, String instr, int length) {
+		StringBuffer code = new StringBuffer();
+		StringBuffer ix = new StringBuffer();
+		code.append(Utils.getStringFromIntArray(getBinaryFromDec(opcode, 6)));
+		String instr_2 = instr.substring(length);
+		// trim all leading and tailing whitespaces.fault-tolerant.
+		instr_2 = instr_2.trim();
+
+		int index = instr_2.indexOf(',');
+		int bin = Integer.valueOf(instr_2.substring(0, index));
+		code.append(Utils.getStringFromIntArray(getBinaryFromDec(bin, 2))); // fr
+
+		instr_2 = instr_2.substring(index + 1);
+		index = instr_2.indexOf(',');
+		bin = Integer.valueOf(instr_2.substring(0, index));
+		ix.append(Utils.getStringFromIntArray(getBinaryFromDec(bin, 2))); // IX
+
+		instr_2 = instr_2.substring(index + 1);
+		if (instr_2.indexOf(',') >= 0
+				&& instr_2.toUpperCase().indexOf('I') >= 0) {
+			code.append("1"); // I
+			code.append(ix);
+			index = instr_2.indexOf(',');
+			bin = Integer.valueOf(instr_2.substring(0, index));
+			code.append(Utils.getStringFromIntArray(getBinaryFromDec(bin, 5))); // Address
+		} else {
+			code.append("0"); // I
+			code.append(ix);
+			bin = Integer.valueOf(instr_2);
+			code.append(Utils.getStringFromIntArray(getBinaryFromDec(bin, 5)));
+		}
+		return code.toString();
+	}
+	
+	public static String decompose_SandR(int opcode, String instr, int length){
+		StringBuffer code = new StringBuffer();
+		StringBuffer count= new StringBuffer();
+		StringBuffer al= new StringBuffer();
+		StringBuffer lr= new StringBuffer();
+		code.append(Utils.getStringFromIntArray(getBinaryFromDec(opcode, 6)));
+		String instr_2 = instr.substring(length);
+		// trim all leading and tailing whitespaces.fault-tolerant.
+		instr_2 = instr_2.trim();
+		
+		int index = instr_2.indexOf(',');
+		int bin = Integer.valueOf(instr_2.substring(0, index));
+		code.append(Utils.getStringFromIntArray(getBinaryFromDec(bin, 2))); // R
+		
+		instr_2 = instr_2.substring(index + 1);
+		index = instr_2.indexOf(',');
+		bin = Integer.valueOf(instr_2.substring(0, index));
+		count.append(Utils.getStringFromIntArray(getBinaryFromDec(bin, 4)));//count
+		
+		instr_2 = instr_2.substring(index + 1);
+		index = instr_2.indexOf(',');
+		bin = Integer.valueOf(instr_2.substring(0, index));
+		lr.append(Utils.getStringFromIntArray(getBinaryFromDec(bin, 1)));//lr
+		
+		instr_2 = instr_2.substring(index + 1);
+		bin = Integer.valueOf(instr_2.substring(0, index));
+		al.append(Utils.getStringFromIntArray(getBinaryFromDec(bin, 1)));//al
+		
+		code.append(al);
+		code.append(lr);
+		code.append("00");
+		code.append(count);
+		
+		return code.toString();
+	}
+	
+	public static String decompose_RtoR(int opcode, String instr, int length){
+		StringBuffer code = new StringBuffer();
+		code.append(Utils.getStringFromIntArray(getBinaryFromDec(opcode, 6)));
+		String instr_2 = instr.substring(length);
+		// trim all leading and tailing whitespaces.fault-tolerant.
+		instr_2 = instr_2.trim();
+		
+		int index = instr_2.indexOf(',');
+		if(index!=-1){
+			int bin = Integer.valueOf(instr_2.substring(0, index));
+			code.append(Utils.getStringFromIntArray(getBinaryFromDec(bin, 2))); // Rx
+
+			instr_2 = instr_2.substring(index + 1); // Ry
+			bin = Integer.valueOf(instr_2);
+			code.append(Utils.getStringFromIntArray(getBinaryFromDec(bin, 2)));
+			code.append("000000");
+		}else if(index==-1){
+			int bin = Integer.valueOf(instr_2);
+			code.append(Utils.getStringFromIntArray(getBinaryFromDec(bin, 2)));
+			code.append("00000000");
+		}
+		
+		return code.toString();
+	}
+	
+	public static String decompose_1(int opcode, String instr, int instr_len, int addr_len){
+		StringBuffer code = new StringBuffer();
+		code.append(Utils.getStringFromIntArray(getBinaryFromDec(opcode, 6)));
+		for(int i=0; i<10-addr_len; i++){
+			code.append("0");
+		}
+		String instr_2 = instr.substring(instr_len);
+		// trim all leading and tailing whitespaces.fault-tolerant.
+		instr_2 = instr_2.trim();
+		int bin= Integer.valueOf(instr_2);
+		code.append(Utils.getStringFromIntArray(getBinaryFromDec(bin, addr_len)));
+		return code.toString();
+	}
+	
 
 	public static String getCodeFromInstr(String instr) {
 		StringBuffer code = new StringBuffer();
@@ -260,49 +398,190 @@ public class Utils {
 		try {
 			if (instr.toUpperCase().startsWith("LDR")) {
 				code.append(decompose_3or4(
-						(int) InstructionSet.instructionMap.get("LDR"), instr));
+						(int) InstructionSet.instructionMap.get("LDR"), instr,3));
 
+			}
+			
+			else if(instr.toUpperCase().startsWith("HLT")){
+				code.append("0000000000000000");
+			}
+			
+			else if (instr.toUpperCase().startsWith("TRAP")) {
+				// TODO 30 OR 36?
+				code.append(decompose_1(
+						(int) InstructionSet.instructionMap.get("TRAP"), instr, 4, 4));
 			}
 
 			else if (instr.toUpperCase().startsWith("STR")) {
 				code.append(decompose_3or4(
-						(int) InstructionSet.instructionMap.get("STR"), instr));
+						(int) InstructionSet.instructionMap.get("STR"), instr, 3));
 			}
 
 			else if (instr.toUpperCase().startsWith("LDA")) {
 				code.append(decompose_3or4(
-						(int) InstructionSet.instructionMap.get("LDA"), instr));
+						(int) InstructionSet.instructionMap.get("LDA"), instr, 3));
 			}
 
 			else if (instr.toUpperCase().startsWith("LDX")) {
 				code.append(decompose_3or4(
-						(int) InstructionSet.instructionMap.get("LDX"), instr));
+						(int) InstructionSet.instructionMap.get("LDX"), instr, 3));
 			}
 
 			else if (instr.toUpperCase().startsWith("STX")) {
 				code.append(decompose_3or4(
-						(int) InstructionSet.instructionMap.get("STX"), instr));
+						(int) InstructionSet.instructionMap.get("STX"), instr, 3));
 			}
 
 			else if (instr.toUpperCase().startsWith("AMR")) {
 				code.append(decompose_3or4(
-						(int) InstructionSet.instructionMap.get("AMR"), instr));
+						(int) InstructionSet.instructionMap.get("AMR"), instr, 3));
 			}
 
 			else if (instr.toUpperCase().startsWith("SMR")) {
 				code.append(decompose_3or4(
-						(int) InstructionSet.instructionMap.get("SMR"), instr));
+						(int) InstructionSet.instructionMap.get("SMR"), instr, 3));
 			}
 
 			else if (instr.toUpperCase().startsWith("AIR")) {
 				code.append(decompose_2(
-						(int) InstructionSet.instructionMap.get("AIR"), instr));
+						(int) InstructionSet.instructionMap.get("AIR"), instr, 3));
 			}
 
 			else if (instr.toUpperCase().startsWith("SIR")) {
 				code.append(decompose_2(
-						(int) InstructionSet.instructionMap.get("SIR"), instr));
+						(int) InstructionSet.instructionMap.get("SIR"), instr, 3));
 			}
+			
+			else if (instr.toUpperCase().startsWith("JZ")) {
+				code.append(decompose_3or4(
+						(int) InstructionSet.instructionMap.get("JZ"), instr, 2));
+			}
+			
+			else if (instr.toUpperCase().startsWith("JNZ")) {
+				code.append(decompose_3or4(
+						(int) InstructionSet.instructionMap.get("JNZ"), instr, 3));
+			}
+			
+			else if (instr.toUpperCase().startsWith("JCC")) {
+				code.append(decompose_3or4(
+						(int) InstructionSet.instructionMap.get("JCC"), instr, 3));
+			}
+			
+			else if (instr.toUpperCase().startsWith("JMA")) {
+				code.append(decompose_2or3(
+						(int) InstructionSet.instructionMap.get("JMA"), instr, 3));
+			}
+			
+			else if (instr.toUpperCase().startsWith("JSR")) {
+				code.append(decompose_2or3(
+						(int) InstructionSet.instructionMap.get("JSR"), instr, 3));
+			}
+			
+			else if (instr.toUpperCase().startsWith("RFS")) {
+				code.append(decompose_1(
+						(int) InstructionSet.instructionMap.get("RFS"), instr, 3, 5));
+			}
+			
+			else if (instr.toUpperCase().startsWith("SOB")) {
+				code.append(decompose_3or4(
+						(int) InstructionSet.instructionMap.get("SOB"), instr, 3));
+			}
+			
+			else if (instr.toUpperCase().startsWith("JGE")) {
+				code.append(decompose_3or4(
+						(int) InstructionSet.instructionMap.get("JGE"), instr, 3));
+			}
+			
+			else if (instr.toUpperCase().startsWith("MLT")) {
+				code.append(decompose_RtoR(
+						(int) InstructionSet.instructionMap.get("MLT"), instr, 3));
+			}
+			
+			else if (instr.toUpperCase().startsWith("DVD")) {
+				code.append(decompose_RtoR(
+						(int) InstructionSet.instructionMap.get("DVD"), instr, 3));
+			}
+			
+			else if (instr.toUpperCase().startsWith("TRR")) {
+				code.append(decompose_RtoR(
+						(int) InstructionSet.instructionMap.get("TRR"), instr, 3));
+			}
+			
+			else if (instr.toUpperCase().startsWith("AND")) {
+				code.append(decompose_RtoR(
+						(int) InstructionSet.instructionMap.get("AND"), instr, 3));
+			}
+			
+			else if (instr.toUpperCase().startsWith("ORR")) {
+				code.append(decompose_RtoR(
+						(int) InstructionSet.instructionMap.get("ORR"), instr, 3));
+			}
+			
+			else if (instr.toUpperCase().startsWith("NOT")) {
+				code.append(decompose_RtoR(
+						(int) InstructionSet.instructionMap.get("NOT"), instr, 3));
+			}
+			
+			else if (instr.toUpperCase().startsWith("SRC")) {
+				code.append(decompose_SandR(
+						(int) InstructionSet.instructionMap.get("SRC"), instr, 3));
+			}
+			
+			else if (instr.toUpperCase().startsWith("RRC")) {
+				code.append(decompose_SandR(
+						(int) InstructionSet.instructionMap.get("RRC"), instr, 3));
+			}
+			
+			else if (instr.toUpperCase().startsWith("IN")) {
+				code.append(decompose_2(
+						(int) InstructionSet.instructionMap.get("IN"), instr, 2));
+			}
+			
+			else if (instr.toUpperCase().startsWith("OUT")) {
+				code.append(decompose_2(
+						(int) InstructionSet.instructionMap.get("OUT"), instr, 3));
+			}
+			
+			else if (instr.toUpperCase().startsWith("CHK")) {
+				code.append(decompose_2(
+						(int) InstructionSet.instructionMap.get("CHK"), instr, 3));
+			}
+			
+			else if (instr.toUpperCase().startsWith("FADD")) {
+				code.append(decompose_FPIorV(
+						(int) InstructionSet.instructionMap.get("FADD"), instr, 4));
+			}
+			
+			else if (instr.toUpperCase().startsWith("FSUB")) {
+				code.append(decompose_FPIorV(
+						(int) InstructionSet.instructionMap.get("FSUB"), instr, 4));
+			}
+			
+			else if (instr.toUpperCase().startsWith("VADD")) {
+				code.append(decompose_FPIorV(
+						(int) InstructionSet.instructionMap.get("VADD"), instr, 4));
+			}
+			
+			else if (instr.toUpperCase().startsWith("VSUB")) {
+				code.append(decompose_FPIorV(
+						(int) InstructionSet.instructionMap.get("VSUB"), instr, 4));
+			}
+			
+			else if (instr.toUpperCase().startsWith("CNVRT")) {
+				code.append(decompose_FPIorV(
+						(int) InstructionSet.instructionMap.get("CNVRT"), instr, 5));
+			}
+			
+			else if (instr.toUpperCase().startsWith("LDFR")) {
+				code.append(decompose_FPIorV(
+						(int) InstructionSet.instructionMap.get("LDFR"), instr, 4));
+			}
+			
+			else if (instr.toUpperCase().startsWith("STFR")) {
+				code.append(decompose_FPIorV(
+						(int) InstructionSet.instructionMap.get("STFR"), instr, 4));
+			}
+			
 		} catch (Exception e) {
 			// e.printStackTrace();
 			code = new StringBuffer("error!");
