@@ -16,7 +16,9 @@ public class CPU {
 	private int[] ix = new int[2];
 	private int ind;
 	private int[] address = new int[5];
-	int EA;
+	private int EA;
+	private int arithOrLogic;
+	private int leftOrRight;
 
 	public static CPU getInstance() {
 		if (instance == null) {
@@ -460,7 +462,8 @@ public class CPU {
 			registerName1 = "R" + Utils.getDecimalFromBin(ix);
 
 			Utils.logic(opcode, registerName, registerName1);
-			Application.getRegisterByName(registerName).setData(Application.getRegisterByName("LRR").getData());
+			Application.getRegisterByName(registerName).setData(
+					Application.getRegisterByName("LRR").getData());
 			Log.d("RF[RFI1] <- LRR");
 			break;
 		case 24:
@@ -473,7 +476,8 @@ public class CPU {
 			registerName1 = "R" + Utils.getDecimalFromBin(ix);
 
 			Utils.logic(opcode, registerName, registerName1);
-			Application.getRegisterByName(registerName).setData(Application.getRegisterByName("LRR").getData());
+			Application.getRegisterByName(registerName).setData(
+					Application.getRegisterByName("LRR").getData());
 			Log.d("RF[RFI1] <- LRR");
 			break;
 		case 25:
@@ -486,8 +490,58 @@ public class CPU {
 			registerName1 = "R" + Utils.getDecimalFromBin(ix);
 
 			Utils.logic(opcode, registerName, registerName1);
-			Application.getRegisterByName(registerName).setData(Application.getRegisterByName("LRR").getData());
+			Application.getRegisterByName(registerName).setData(
+					Application.getRegisterByName("LRR").getData());
 			Log.d("RF[RFI1] <- LRR");
+
+			break;
+
+		case 31:
+			// SRC
+			// Shift Register by Count
+			// c(r) is shifted left (L/R =1) or right (L/R = 0) either logically
+			// (A/L = 1) or arithmetically (A/L = 0)
+			// XX, XXX are ignored
+			// Count = 0…15
+			// If Count = 0, no shift occurs
+			registerName = "R" + Utils.getDecimalFromBin(rfi);
+			leftOrRight = ix[1];
+			arithOrLogic = ix[0];
+			Utils.shifter(opcode, registerName, arithOrLogic, leftOrRight,
+					Utils.getDecimalFromBin(address));
+			Application.getRegisterByName(registerName).setData(
+					Application.getRegisterByName("SRR").getData());
+			Log.d("RF[RFI1] <- SRR");
+			break;
+		case 32:
+			// RRC
+			// Rotate Register by Count
+			// c(r) is rotated left (L/R = 1) or right (L/R =0) either logically
+			// (A/L =1)
+			// XX, XXX is ignored
+			// Count = 0…15
+			// If Count = 0, no rotate occurs
+			registerName = "R" + Utils.getDecimalFromBin(rfi);
+			leftOrRight = ix[1];
+			arithOrLogic = ix[0];
+			Utils.shifter(opcode, registerName, arithOrLogic, leftOrRight,
+					Utils.getDecimalFromBin(address));
+			Application.getRegisterByName(registerName).setData(
+					Application.getRegisterByName("SRR").getData());
+			Log.d("RF[RFI1] <- SRR");
+			break;
+		case 61:
+			// IN
+			// Input Character To Register from Device, r = 0..3
+			break;
+		case 62:
+			// OUT
+			// Output Character to Device from Register, r = 0..3
+			break;
+		case 63:
+			// CHK
+			// Check Device Status to Register, r = 0..3
+			// c(r) <- device status
 
 			break;
 		}
