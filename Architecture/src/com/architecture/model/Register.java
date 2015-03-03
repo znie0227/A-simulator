@@ -53,7 +53,7 @@ public class Register {
 		for (int i = 0; i < size; i++) {
 			if (i < val.length())
 				this.data[size - i - 1] = Integer.valueOf(val.charAt(val
-						.length() - 1 - i));
+						.length() - 1 - i)+"");
 			else
 				this.data[size - i - 1] = 0;
 		}
