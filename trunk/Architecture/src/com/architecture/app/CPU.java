@@ -4,6 +4,7 @@ import com.architecture.model.Log;
 import com.architecture.model.Memory;
 import com.architecture.util.Constants;
 import com.architecture.util.Utils;
+import com.architecture.view.IOSystemPrinterPanel;
 
 public class CPU {
 
@@ -26,10 +27,22 @@ public class CPU {
 		}
 		return instance;
 	}
+	
+	public void executeComplete(int instructionLength) {
+		for (int i=0;i<instructionLength;i++) {
+			execute();
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
 
 	public void execute() {
 		// reset CC
-		Application.getRegisterByName("CC").setDataByDec(0);
+//		Application.getRegisterByName("CC").setDataByDec(0);
 		if (state != Constants.CPU_STATE_IDLE) {
 			return;
 		}
@@ -62,7 +75,7 @@ public class CPU {
 				for (int i = 0; i < 6; i++) {
 					opcode[i] = Application.getRegisterByName("IR").getData()[i];
 				}
-				Log.d("Extract param: OPCode");
+				Log.d("Extract param: OPCode="+Utils.getStringFromIntArray(opcode));
 				super.run();
 			}
 		}.start();
@@ -134,7 +147,7 @@ public class CPU {
 	private void executeCertainInstruction(String opcode) {
 
 		String registerName, registerName1, regPlus1Name;
-		System.out.println(Utils.getDecimalFromBin(opcode));
+		System.out.println("inst:"+opcode+"   "+Utils.getDecimalFromBin(opcode));
 		switch (Utils.getDecimalFromBin(opcode)) {
 		// TODO
 		case 000001:
@@ -198,7 +211,7 @@ public class CPU {
 			Application.getRegisterByName(registerName).setData(
 					Application.getRegisterByName("ARR").getData());
 			if (Application.getRegisterByName("CC").getDataAtPosition(0) == 1) {
-				Log.d("OVERFLOW!!!");
+				Log.e("OVERFLOW!!!");
 			}
 			Log.d("RF[RFI] = ARR");
 			// reg = Application.getRegisterByName(registerName);
@@ -215,7 +228,7 @@ public class CPU {
 			Application.getRegisterByName(registerName).setData(
 					Application.getRegisterByName("ARR").getData());
 			if (Application.getRegisterByName("CC").getDataAtPosition(1) == 1) {
-				Log.d("UNDERFLOW!!!");
+				Log.e("UNDERFLOW!!!");
 			}
 			Log.d("RF[RFI] = ARR");
 			// reg = Application.getRegisterByName(registerName);
@@ -232,7 +245,7 @@ public class CPU {
 			Application.getRegisterByName(registerName).setData(
 					Application.getRegisterByName("ARR").getData());
 			if (Application.getRegisterByName("CC").getDataAtPosition(0) == 1) {
-				Log.d("OVERFLOW!!!");
+				Log.e("OVERFLOW!!!");
 			}
 			Log.d("RF[RFI] = ARR");
 			// reg = Application.getRegisterByName(registerName);
@@ -248,7 +261,7 @@ public class CPU {
 			Application.getRegisterByName(registerName).setData(
 					Application.getRegisterByName("ARR").getData());
 			if (Application.getRegisterByName("CC").getDataAtPosition(1) == 1) {
-				Log.d("UNDERFLOW!!!");
+				Log.e("UNDERFLOW!!!");
 			}
 			Log.d("RF[RFI] = ARR");
 			// reg = Application.getRegisterByName(registerName);
@@ -281,8 +294,6 @@ public class CPU {
 			if (Application.getRegisterByName(registerName).getDecData() == 0) {
 				Application.getRegisterByName("PC").setData(
 						Application.getRegisterByName("MAR").getData());
-			} else {
-				PCIncrement();
 			}
 
 			break;
@@ -294,8 +305,6 @@ public class CPU {
 			if (!(Application.getRegisterByName(registerName).getDecData() == 0)) {
 				Application.getRegisterByName("PC").setData(
 						Application.getRegisterByName("MAR").getData());
-			} else {
-				PCIncrement();
 			}
 			break;
 		case 12:
@@ -307,7 +316,10 @@ public class CPU {
 			// Else PC <- PC + 1
 			registerName = "CC";
 			// TODO
-
+			if (Application.getRegisterByName(registerName).getData()[Utils.getDecimalFromBin(rfi)]==1) {
+				Application.getRegisterByName("PC").setData(
+						Application.getRegisterByName("MAR").getData());
+			}
 			break;
 		case 13:
 			// JMA Unconditional Jump To Address
@@ -333,8 +345,7 @@ public class CPU {
 			// stored in the instruction’s address field.
 			// R0 <- Immed; PC <- c(R3)
 			// IX, I fields are ignored.
-			Application.getRegisterByName("R0").setData(
-					Application.getRegisterByName("MAR").getData());
+			Application.getRegisterByName("R0").setData(address);
 			Application.getRegisterByName("PC").setData(
 					Application.getRegisterByName("R3").getData());
 
@@ -352,8 +363,6 @@ public class CPU {
 			if (Application.getRegisterByName(registerName).getDecData() > 0) {
 				Application.getRegisterByName("PC").setData(
 						Application.getRegisterByName("MAR").getData());
-			} else {
-				PCIncrement();
 			}
 			break;
 		case 17:
@@ -365,10 +374,7 @@ public class CPU {
 			if (Application.getRegisterByName(registerName).getDecData() > 0) {
 				Application.getRegisterByName("PC").setData(
 						Application.getRegisterByName("MAR").getData());
-			} else {
-				PCIncrement();
 			}
-
 			break;
 		case 20:
 			// MLT
@@ -398,7 +404,7 @@ public class CPU {
 					Application.getRegisterByName("MRR").getDataInString()
 							.substring(16, 32));
 			if (Application.getRegisterByName("CC").getDataAtPosition(0) == 1) {
-				Log.d("OVERFLOW!!!");
+				Log.e("OVERFLOW!!!");
 			}
 			Log.d("Rx = MRR[0-15]\nRy = MRR[16-31]");
 
@@ -430,7 +436,7 @@ public class CPU {
 					Application.getRegisterByName("MRR").getDataInString()
 							.substring(16, 32));
 			if (Application.getRegisterByName("CC").getDataAtPosition(2) == 1) {
-				Log.d("DIVZERO!!!");
+				Log.e("DIVZERO!!!");
 			}
 			Log.d("Rx = MRR[0-15]\nRy = MRR[16-31]");
 
@@ -542,7 +548,7 @@ public class CPU {
 			// CHK
 			// Check Device Status to Register, r = 0..3
 			// c(r) <- device status
-
+			IOSystemPrinterPanel.getInstance().startFlash();
 			break;
 		}
 	}
