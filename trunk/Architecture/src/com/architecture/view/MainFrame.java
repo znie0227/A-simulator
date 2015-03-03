@@ -1,6 +1,7 @@
 package com.architecture.view;
 
 import java.awt.Color;
+import java.awt.Dimension;
 
 import javax.swing.JFrame;
 
@@ -42,6 +43,11 @@ public class MainFrame extends JFrame {
 		this.add(inputPanel);
 		this.setVisible(true);
 		
+		iosystemprinterPanel=new IOSystemPrinterPanel();
+		iosystemprinterPanel.setBounds(608,0,210,250);
+		this.add(iosystemprinterPanel);
+		
+		
 		memoryPanel=new MemoryPanel();
 		
 		
@@ -58,12 +64,12 @@ public class MainFrame extends JFrame {
 		this.add(consolePanel);
 		this.setVisible(true);
 		
+		
 		recordPanel=new RecordPanel();
 		this.add(recordPanel);
 		
-		iosystemprinterPanel=new IOSystemPrinterPanel();
-		this.add(iosystemprinterPanel);
 		this.setVisible(true);
+		this.validate();
 	}
 	
 	
