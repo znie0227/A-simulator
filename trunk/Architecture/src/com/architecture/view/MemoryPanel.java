@@ -74,11 +74,11 @@ public class MemoryPanel extends JPanel {
         this.add(addr);
         
         //addr field
-        gridx=1;
-        gridy=0;
+        gridx=0;
+        gridy=1;
         gridwidth=1;
         gridheight=1;
-        weightx=3;
+        weightx=0;
         weighty=0;
         anchor=GridBagConstraints.WEST;
         fill=GridBagConstraints.HORIZONTAL;
@@ -86,7 +86,7 @@ public class MemoryPanel extends JPanel {
         ipadx=0;
         ipady=0;
 		ADDRField.setEnabled(true);
-		ADDRField.setText("0000000000000000");
+		ADDRField.setText("00000000000");
 		ADDRField.setEditable(false);
         c=new GridBagConstraints(gridx,gridy,gridwidth,gridheight,weightx,weighty,anchor,
            fill,inset,ipadx,ipady);
@@ -94,8 +94,8 @@ public class MemoryPanel extends JPanel {
         this.add(ADDRField);
         
         //addr input
-        gridx=2;
-        gridy=0;
+        gridx=1;
+        gridy=1;
         gridwidth=1;
         gridheight=1;
         weightx=1;
@@ -248,18 +248,7 @@ public class MemoryPanel extends JPanel {
 				super.keyReleased(e);
 			}
 		});
-//		query.setSize(68, 23);
-//		query.setLocation(17, 370);
-//		save.setSize(68, 23);
-//		save.setLocation(110, 369);
-//		this.add(addr);
-//		this.add(ADDRField);
-//		this.add(inputField2);
-//		this.add(data);
-//		this.add(DATAField);
-//		this.add(inputField3);
-//		this.add(query);
-//		this.add(save);
+
 		this.setVisible(true);
 
 		addListener();
