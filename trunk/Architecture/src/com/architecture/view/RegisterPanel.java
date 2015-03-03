@@ -188,14 +188,15 @@ public class RegisterPanel extends JPanel {
 		this.add(save);
 		this.add(PC);
 		this.add(CC);
-		this.add(EA);
-		this.add(IR_R);
-		this.add(IR_X);
-		this.add(IR_I);
-		this.add(AL);
-		this.add(FR_0);
-		this.add(FR_1);
-		this.add(LR);
+		// TODO temporarily hide these buttons
+//		this.add(EA);
+//		this.add(IR_R);
+//		this.add(IR_X);
+//		this.add(IR_I);
+//		this.add(AL);
+//		this.add(FR_0);
+//		this.add(FR_1);
+//		this.add(LR);
 		//this.add(COUNT);
 
 		
@@ -215,6 +216,7 @@ public class RegisterPanel extends JPanel {
 		addListener(MAR, "MAR");
 		addListener(MDR, "MDR");
 		addListener(PC, "PC");
+		addListener(CC, "CC");
 
 		save.addActionListener(new ActionListener() {
 
