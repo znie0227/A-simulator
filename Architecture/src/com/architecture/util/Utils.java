@@ -121,7 +121,7 @@ public class Utils {
 		}
 		return sb.toString();
 	}
-
+	
 	public static int[] getIntArrayFromString(String val) {
 		int[] intArray = new int[val.length()];
 		for (int i = 0; i < val.length(); i++) {
@@ -229,8 +229,8 @@ public class Utils {
 			if (t1 * t2 > 4294967296l) {
 				Application.getRegisterByName("CC").setDataByBitPosition(1, 0);
 			}
-			Application.getRegisterByName("ARR").setDataByLongDec(t1 * t2);
-			Log.d("MRR <- MULT");
+			Application.getRegisterByName("MRR").setDataByLongDec(t1 * t2);
+			Log.d("MRR <- MULT:"+t1*t2);
 
 			// TODO test overflow
 
@@ -253,7 +253,9 @@ public class Utils {
 			remainder;
 			quotient = (int) (t1 / t2);
 			remainder = (int) (t1 % t2);
-			String result = quotient + "" + remainder;
+//			String result = get(quotient) + "" + remainder;
+			String result=getStringFromIntArray(getBinaryFromDec(quotient, 16))+getStringFromIntArray(getBinaryFromDec(remainder, 16));
+			System.out.println(result);
 			Application.getRegisterByName("MRR").setDataByString(result);
 			Log.d("MRR <- MULT");
 
