@@ -69,7 +69,8 @@ public class MainFrame extends JFrame {
 		this.add(recordPanel);
 		
 		this.setVisible(true);
-		this.validate();
+		repaint();
+//		this.validate();
 	}
 	
 	
