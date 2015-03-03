@@ -1,7 +1,11 @@
 package com.architecture.view;
 
+import java.awt.Container;
 import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.Label;
 import java.awt.TextArea;
 import java.awt.TextField;
@@ -13,6 +17,7 @@ import java.awt.event.KeyEvent;
 import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
@@ -39,43 +44,163 @@ public class MemoryPanel extends JPanel {
 	private JTextField inputField3 = new JTextField();
 
 	public MemoryPanel() {
-		this.setLayout(new FlowLayout(FlowLayout.LEFT, 23, 10));
+		GridBagConstraints c;
+	    int gridx,gridy,gridwidth,gridheight,anchor,fill,ipadx,ipady;
+	    double weightx,weighty;
+	    Insets inset;
+	    
+	    GridBagLayout gridbag=new GridBagLayout();
 
-		this.setBorder(BorderFactory.createTitledBorder("Memory"));
-		AbstractButton memoryPanel;
-		JLabel addr = new JLabel("Addr");
+        this.setLayout(gridbag);
+        this.setBorder(BorderFactory.createTitledBorder("Memory"));
+        JLabel addr = new JLabel("Addr");
 		JLabel data = new JLabel("Data");
-
-		addr.setSize(10, 25);
-		addr.setLocation(0, 280);
-
-		data.setSize(40, 25);
-		data.setLocation(8, 320);
-
+		
+        //addr
+        gridx=0;
+        gridy=0;
+        gridwidth=1;
+        gridheight=1;
+        weightx=0;
+        weighty=0;        
+        anchor=GridBagConstraints.WEST;
+        fill=GridBagConstraints.HORIZONTAL;
+        inset=new Insets(0,0,0,0);
+        ipadx=0;
+        ipady=0;
+        c=new GridBagConstraints(gridx,gridy,gridwidth,gridheight,weightx,weighty,anchor,
+           fill,inset,ipadx,ipady);
+        gridbag.setConstraints(addr,c);
+        this.add(addr);
+        
+        //addr field
+        gridx=1;
+        gridy=0;
+        gridwidth=1;
+        gridheight=1;
+        weightx=3;
+        weighty=0;
+        anchor=GridBagConstraints.WEST;
+        fill=GridBagConstraints.HORIZONTAL;
+        inset=new Insets(0,0,0,0);
+        ipadx=0;
+        ipady=0;
 		ADDRField.setEnabled(true);
-		ADDRField.setText("00000000000           ");
-		ADDRField.setBounds(20, 280, 140, 28);
+		ADDRField.setText("0000000000000000");
 		ADDRField.setEditable(false);
-		;
-
-		// ADDRField.setEditable(false);
-		// ADDRField.setColumns(20);
-
+        c=new GridBagConstraints(gridx,gridy,gridwidth,gridheight,weightx,weighty,anchor,
+           fill,inset,ipadx,ipady);
+        gridbag.setConstraints(ADDRField,c);
+        this.add(ADDRField);
+        
+        //addr input
+        gridx=2;
+        gridy=0;
+        gridwidth=1;
+        gridheight=1;
+        weightx=1;
+        weighty=1;
+        anchor=GridBagConstraints.WEST;
+        fill=GridBagConstraints.HORIZONTAL;
+        inset=new Insets(0,0,0,0);
+        ipadx=0;
+        ipady=0;
+        inputField2.setText("0000");
+        c=new GridBagConstraints(gridx,gridy,gridwidth,gridheight,weightx,weighty,anchor,
+           fill,inset,ipadx,ipady);
+        gridbag.setConstraints(inputField2,c);
+        this.add(inputField2);
+        
+        //data
+        gridx=0;
+        gridy=2;
+        gridwidth=1;
+        gridheight=1;
+        weightx=0;
+        weighty=0;        
+        anchor=GridBagConstraints.CENTER;
+        fill=GridBagConstraints.HORIZONTAL;
+        inset=new Insets(0,0,0,0);
+        ipadx=0;
+        ipady=0;
+        c=new GridBagConstraints(gridx,gridy,gridwidth,gridheight,weightx,weighty,anchor,
+           fill,inset,ipadx,ipady);
+        gridbag.setConstraints(data,c);
+        this.add(data);
+        
+        //data field
+        gridx=0;
+        gridy=3;
+        gridwidth=1;
+        gridheight=1;
+        weightx=0;
+        weighty=0;
+        anchor=GridBagConstraints.CENTER;
+        fill=GridBagConstraints.HORIZONTAL;
+        inset=new Insets(0,0,0,0);
+        ipadx=0;
+        ipady=0;
 		DATAField.setEnabled(true);
 		DATAField.setText("0000000000000000");
-		DATAField.setBounds(50, 320, 130, 28);
 		DATAField.setEditable(false);
-		;
-		// DATAField.setEditable(false);
+        c=new GridBagConstraints(gridx,gridy,gridwidth,gridheight,weightx,weighty,anchor,
+           fill,inset,ipadx,ipady);
+        gridbag.setConstraints(DATAField,c);
+        this.add(DATAField);
+        
+        //data input
+        gridx=1;
+        gridy=3;
+        gridwidth=1;
+        gridheight=1;
+        weightx=1;
+        weighty=1;
+        anchor=GridBagConstraints.CENTER;
+        fill=GridBagConstraints.HORIZONTAL;
+        inset=new Insets(0,0,0,0);
+        ipadx=0;
+        ipady=0;
+        inputField3.setText("0000");
+        c=new GridBagConstraints(gridx,gridy,gridwidth,gridheight,weightx,weighty,anchor,
+           fill,inset,ipadx,ipady);
+        gridbag.setConstraints(inputField3,c);
+        this.add(inputField3);
+        
+        //query
+        gridx=0;
+        gridy=4;
+        gridwidth=1;
+        gridheight=1;
+        weightx=1;
+        weighty=1;
+        anchor=GridBagConstraints.CENTER;
+        fill=GridBagConstraints.HORIZONTAL;
+        inset=new Insets(0,0,0,0);
+        ipadx=0;
+        ipady=0;
+        c=new GridBagConstraints(gridx,gridy,gridwidth,gridheight,weightx,weighty,anchor,
+                fill,inset,ipadx,ipady);
+        gridbag.setConstraints(query,c);
+        this.add(query);
+        
+        //save
+        gridx=1;
+        gridy=4;
+        gridwidth=1;
+        gridheight=1;
+        weightx=1;
+        weighty=1;
+        anchor=GridBagConstraints.CENTER;
+        fill=GridBagConstraints.HORIZONTAL;
+        inset=new Insets(0,0,0,0);
+        ipadx=0;
+        ipady=0;
+        c=new GridBagConstraints(gridx,gridy,gridwidth,gridheight,weightx,weighty,anchor,
+                fill,inset,ipadx,ipady);
+        gridbag.setConstraints(save,c);
+        this.add(save);
+		
 
-		inputField2.setSize(40, 25);
-		inputField2.setLocation(200, 282);
-		inputField2.setText("0000");
-		// inputField2.setBounds(200, 282, 40, 25);
-		inputField3.setSize(40, 25);
-		inputField3.setLocation(200, 322);
-		// inputField3.setBounds(200, 322, 40, 25);
-		inputField3.setText("0000");
 
 		inputField2.addKeyListener(new KeyAdapter() {
 			public void keyTyped(KeyEvent e) {
@@ -123,18 +248,18 @@ public class MemoryPanel extends JPanel {
 				super.keyReleased(e);
 			}
 		});
-		query.setSize(68, 23);
-		query.setLocation(17, 370);
-		save.setSize(68, 23);
-		save.setLocation(110, 369);
-		this.add(addr);
-		this.add(ADDRField);
-		this.add(inputField2);
-		this.add(data);
-		this.add(DATAField);
-		this.add(inputField3);
-		this.add(query);
-		this.add(save);
+//		query.setSize(68, 23);
+//		query.setLocation(17, 370);
+//		save.setSize(68, 23);
+//		save.setLocation(110, 369);
+//		this.add(addr);
+//		this.add(ADDRField);
+//		this.add(inputField2);
+//		this.add(data);
+//		this.add(DATAField);
+//		this.add(inputField3);
+//		this.add(query);
+//		this.add(save);
 		this.setVisible(true);
 
 		addListener();
