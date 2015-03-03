@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import com.architecture.model.Memory;
 import com.architecture.model.Register;
 import com.architecture.util.Config;
 import com.architecture.util.Utils;
@@ -68,6 +69,22 @@ public class Application {
 	
 	public static Register getRegisterByName(String name){
 		return registerMap.get(name);
+	}
+	
+	public static void reset(){
+		for (String name:registerList) {
+			resetRegisters(name);
+		}
+	}
+	
+	public static void resetRegisters(String name){
+		getRegisterByName(name).setDataByDec(0);
+	}
+	
+	public static void resetMemory(){
+		for (int i=0;i<Config.MEMORY_SIZE;i++) {
+			Memory.getInstance().write(i, new int[Config.MEMORY_SIZE]);
+		}
 	}
 	
 }
