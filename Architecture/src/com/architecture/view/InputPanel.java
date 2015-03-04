@@ -10,6 +10,7 @@ import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import com.architecture.app.Application;
@@ -41,9 +42,29 @@ public class InputPanel extends JPanel {
 		AbstractButton inputPanel;
 		this.setBorder(BorderFactory.createTitledBorder("Console Keyboard"));
 
-		inputField.setLayout(null);
+		
+		JScrollPane scroll = new JScrollPane(inputField); 
+		//把定义的JTextArea放到JScrollPane里面去 
 
-		this.add(inputField);
+		//分别设置水平和垂直滚动条自动出现 
+		scroll.setHorizontalScrollBarPolicy( 
+		JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED); 
+		scroll.setVerticalScrollBarPolicy( 
+		JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED); 
+
+		//分别设置水平和垂直滚动条总是出现 
+//		scroll.setHorizontalScrollBarPolicy( 
+//		JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS); 
+//		scroll.setVerticalScrollBarPolicy( 
+//		JScrollPane.VERTICAL_SCROLLBAR_ALWAYS); 
+		
+		inputField.setLayout(null);
+		inputField.setLineWrap(true);
+
+//		this.add(inputField);
+		scroll.setSize(250, 150);
+		scroll.setLocation(22, 82);
+		this.add(scroll);
 		inputField.setSize(250, 150);
 		inputField.setLocation(22, 82);
 		inputField.setLineWrap(true);// multiple lines
