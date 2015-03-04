@@ -1,5 +1,10 @@
 package com.architecture.app;
 
+import java.awt.Color;
+
+import com.architecture.device.ConsoleKeyboard;
+import com.architecture.device.ConsolePrinter;
+import com.architecture.device.Device;
 import com.architecture.model.Log;
 import com.architecture.model.Memory;
 import com.architecture.util.Constants;
@@ -21,28 +26,46 @@ public class CPU {
 	private int arithOrLogic;
 	private int leftOrRight;
 
+	private Device device;
+
+	public static Thread currentThread;
+	private Thread thread;
+
+	public static int keyEvent = -1;
+
 	public static CPU getInstance() {
 		if (instance == null) {
 			instance = new CPU();
 		}
 		return instance;
 	}
-	
+
 	public void executeComplete(int instructionLength) {
-		for (int i=0;i<instructionLength;i++) {
-			execute();
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+		thread = new Thread() {
+
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				super.run();
+				for (int i = 0; i < instructionLength; i++) {
+					execute();
+					try {
+						Thread.sleep(100);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
 			}
-		}
+
+		};
+		thread.start();
+
 	}
 
 	public void execute() {
 		// reset CC
-//		Application.getRegisterByName("CC").setDataByDec(0);
+		// Application.getRegisterByName("CC").setDataByDec(0);
 		if (state != Constants.CPU_STATE_IDLE) {
 			return;
 		}
@@ -75,7 +98,8 @@ public class CPU {
 				for (int i = 0; i < 6; i++) {
 					opcode[i] = Application.getRegisterByName("IR").getData()[i];
 				}
-				Log.d("Extract param: OPCode="+Utils.getStringFromIntArray(opcode));
+				Log.d("Extract param: OPCode="
+						+ Utils.getStringFromIntArray(opcode));
 				super.run();
 			}
 		}.start();
@@ -147,7 +171,8 @@ public class CPU {
 	private void executeCertainInstruction(String opcode) {
 
 		String registerName, registerName1, regPlus1Name;
-		System.out.println("inst:"+opcode+"   "+Utils.getDecimalFromBin(opcode));
+		System.out.println("inst:" + opcode + "   "
+				+ Utils.getDecimalFromBin(opcode));
 		switch (Utils.getDecimalFromBin(opcode)) {
 		// TODO
 		case 000001:
@@ -316,7 +341,8 @@ public class CPU {
 			// Else PC <- PC + 1
 			registerName = "CC";
 			// TODO
-			if (Application.getRegisterByName(registerName).getData()[Utils.getDecimalFromBin(rfi)]==1) {
+			if (Application.getRegisterByName(registerName).getData()[Utils
+					.getDecimalFromBin(rfi)] == 1) {
 				Application.getRegisterByName("PC").setData(
 						Application.getRegisterByName("MAR").getData());
 			}
@@ -539,16 +565,73 @@ public class CPU {
 		case 61:
 			// IN
 			// Input Character To Register from Device, r = 0..3
+
+			registerName = "R" + Utils.getDecimalFromBin(rfi);
+			device = Device.getDevice(Utils.getDecimalFromBin(address));
+
+			if (device instanceof ConsoleKeyboard) {
+				IOSystemPrinterPanel.getInstance().getLinkToKeyboardBox()
+						.setSelected(true);
+				IOSystemPrinterPanel.getInstance().getLinkToKeyboardBox()
+						.setFocusable(true);
+				IOSystemPrinterPanel.getInstance().getLinkToKeyboardBox()
+						.requestFocus();
+				IOSystemPrinterPanel.getInstance().getLinkToKeyboardBox()
+						.setBackground(Color.GREEN);
+			}
+			System.out.println(keyEvent);
+			keyEvent = -1;
+
+			this.currentThread = Thread.currentThread();
+			// System.out.println("Start waiting...");
+			try {
+				synchronized (currentThread) {
+					currentThread.wait();
+				}
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+
+			System.out.println("waiting terminated:" + (char) keyEvent);
+
+			Application.getRegisterByName(registerName).setDataByDec(keyEvent);
+			if (device instanceof ConsoleKeyboard) {
+				IOSystemPrinterPanel.getInstance().getLinkToKeyboardBox()
+						.setSelected(false);
+				IOSystemPrinterPanel.getInstance().getLinkToKeyboardBox()
+						.setFocusable(false);
+				IOSystemPrinterPanel.getInstance().getLinkToKeyboardBox()
+						.setBackground(null);
+				device.write((char)keyEvent+"");
+			}
+
+			// device.write(msg);
 			break;
 		case 62:
 			// OUT
 			// Output Character to Device from Register, r = 0..3
+
+			registerName = "R" + Utils.getDecimalFromBin(rfi);
+			
+			device = Device.getDevice(Utils.getDecimalFromBin(address));
+			
+			int ascii = Application.getRegisterByName(registerName)
+					.getDecData();
+			if (ascii >= 0 && ascii <= 128 && device instanceof ConsolePrinter) {
+				IOSystemPrinterPanel.writeToPrinter((char) ascii + "");
+				device.write((char)ascii+"");
+			}
+
+			// }
 			break;
 		case 63:
 			// CHK
 			// Check Device Status to Register, r = 0..3
 			// c(r) <- device status
-			IOSystemPrinterPanel.getInstance().startFlash();
+			registerName = "R" + Utils.getDecimalFromBin(rfi);
+			device = Device.getDevice(Utils.getDecimalFromBin(address));
+			Application.getRegisterByName(registerName).setDataByDec(device.read());
+			System.out.println("chk:"+device.read());
 			break;
 		}
 	}
