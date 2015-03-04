@@ -56,7 +56,7 @@ public class MainFrame extends JFrame {
 		this.setVisible(true);
 		
 		cachePanel=new CachePanel();
-		cachePanel.setBounds(305,250,300,200);
+		cachePanel.setBounds(608,250,210,400);
 		this.add(cachePanel);
 		this.setVisible(true);
 		
@@ -66,6 +66,7 @@ public class MainFrame extends JFrame {
 		
 		
 		recordPanel=new RecordPanel();
+		recordPanel.setBounds(305,250,300,200);
 		this.add(recordPanel);
 		
 		this.setVisible(true);
