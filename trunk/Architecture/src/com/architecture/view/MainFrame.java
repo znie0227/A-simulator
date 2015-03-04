@@ -27,7 +27,6 @@ public class MainFrame extends JFrame {
 		this.setSize(830,700);
 		this.setLocation(200, 120);
 		this.setLayout(null);
-		this.setResizable(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
 		
@@ -46,7 +45,7 @@ public class MainFrame extends JFrame {
 		iosystemprinterPanel=new IOSystemPrinterPanel();
 		iosystemprinterPanel.setBounds(608,0,210,250);
 		this.add(iosystemprinterPanel);
-		
+		iosystemprinterPanel.setVisible(true);
 		
 		memoryPanel=new MemoryPanel();
 		
@@ -73,5 +72,5 @@ public class MainFrame extends JFrame {
 //		this.validate();
 	}
 	
-	
+		
 }
