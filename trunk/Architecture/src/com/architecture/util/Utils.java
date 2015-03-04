@@ -1,5 +1,8 @@
 package com.architecture.util;
 
+import java.text.DecimalFormat;
+import java.text.Format;
+
 import com.architecture.app.Application;
 import com.architecture.model.InstructionSet;
 import com.architecture.model.Log;
@@ -15,6 +18,8 @@ import com.architecture.model.Memory;
  *
  */
 public class Utils {
+	
+	private static Format PERCENTAGE_FORMAT = new DecimalFormat("0.00%");
 
 	public static int[] getBinaryFromDec(int val, int size) {
 		int[] data = new int[size];
@@ -804,6 +809,10 @@ public class Utils {
 	 */
 	public static String getInstructionParam(String originalInstruction) {
 		return null;
+	}
+	
+	public static String formatPercentage(double value){
+		return PERCENTAGE_FORMAT.format(value);
 	}
 
 }
