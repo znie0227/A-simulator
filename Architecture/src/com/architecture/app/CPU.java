@@ -5,12 +5,16 @@ import java.awt.Color;
 import com.architecture.device.ConsoleKeyboard;
 import com.architecture.device.ConsolePrinter;
 import com.architecture.device.Device;
+import com.architecture.exception.IllegalMemoryAddressException;
 import com.architecture.model.Log;
 import com.architecture.model.Memory;
+import com.architecture.model.Word;
+import com.architecture.util.Config;
 import com.architecture.util.Constants;
 import com.architecture.util.Utils;
 import com.architecture.view.IOSystemPrinterPanel;
 
+	
 public class CPU {
 
 	private static CPU instance;
@@ -34,6 +38,8 @@ public class CPU {
 	public static int keyEvent = -1;
 	
 	private Cache memory = Cache.getInstance();
+	
+	private int cacheLocation=0;
 
 	public static CPU getInstance() {
 		if (instance == null) {
@@ -80,6 +86,22 @@ public class CPU {
 		Log.d("move PC to MAR:"
 				+ Application.getRegisterByName("MAR").getDataInString());
 		// Fetch the next instruction from the memory and load it into the MDR
+		
+		try {
+			if (cacheLocation<Config.CACHELINE_CAPACITY*Config.CACHELINE_SIZE) {
+			Cache.getInstance().write(cacheLocation, Memory.getInstance().read(Application.getRegisterByName("MAR")
+											.getDecData()));
+			}
+			cacheLocation++;
+			if (cacheLocation>=Config.CACHELINE_CAPACITY*Config.CACHELINE_SIZE) {
+				cacheLocation=0;
+			}
+		} catch (IllegalMemoryAddressException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+						
+		
 		Application.getRegisterByName("MDR")
 				.setData(
 						Memory.getInstance()
