@@ -32,6 +32,8 @@ public class CPU {
 	private Thread thread;
 
 	public static int keyEvent = -1;
+	
+	private Cache memory = Cache.getInstance();
 
 	public static CPU getInstance() {
 		if (instance == null) {
@@ -640,6 +642,20 @@ public class CPU {
 		int currentPCPos = Application.getRegisterByName("PC").getDecData();
 		Application.getRegisterByName("PC").setDataByDec(currentPCPos + 1);
 		Log.d("PC <- PC + 1 (PC Increment)");
+	}
+	
+	/**
+	 * enable or disable Cache
+	 * @param enable
+	 */
+	public void setCahceEnable(boolean enable){
+		if(enable){
+			memory = Cache.getInstance();
+			Cache.getInstance().clear();
+		}else{
+//			memory = Memory.getInstance();
+		}
+			
 	}
 
 }
