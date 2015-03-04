@@ -50,7 +50,7 @@ public class MainFrame extends JFrame {
 		memoryPanel=new MemoryPanel();
 		
 		
-		memoryPanel.setBounds(5,250,280,200);		
+		memoryPanel.setBounds(5,250,300,200);		
 		//memoryPanel.setLayout(null);
 		this.add(memoryPanel);
 		this.setVisible(true);

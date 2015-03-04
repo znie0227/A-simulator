@@ -41,7 +41,7 @@ public class IOSystemPrinterPanel extends JPanel {
 		this.setLayout(null);
 		AbstractButton iosystemprinterPanel;
 		// this.setBounds(608,0,210,250);
-		this.setBorder(BorderFactory.createTitledBorder("I/O SystemPrinter"));
+		this.setBorder(BorderFactory.createTitledBorder("I/O System Device"));
 
 		outputField.setLayout(null);
 		// outputField.setBounds(620,20,200,100);

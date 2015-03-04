@@ -14,7 +14,7 @@ public class CachePanel extends JPanel{
 	{
 		this.setLayout(null);
 		AbstractButton cachePanel;
-		this.setBounds(305,250,313,200);
+		this.setBounds(305,250,300,200);
 		this.setBorder(BorderFactory.createTitledBorder("Cache"));
 	}
 
