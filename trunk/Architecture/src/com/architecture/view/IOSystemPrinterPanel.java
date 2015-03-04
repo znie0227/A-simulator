@@ -2,7 +2,6 @@ package com.architecture.view;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.TextArea;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -11,10 +10,8 @@ import javax.swing.BorderFactory;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
 
 import com.architecture.app.CPU;
-import com.architecture.device.ConsoleKeyboard;
 import com.architecture.thread.InputFromDeviceThread;
 
 public class IOSystemPrinterPanel extends JPanel {
@@ -39,7 +36,6 @@ public class IOSystemPrinterPanel extends JPanel {
 	public IOSystemPrinterPanel() {
 		ioSystemPrinterPanel=this;
 		this.setLayout(null);
-		AbstractButton iosystemprinterPanel;
 		// this.setBounds(608,0,210,250);
 		this.setBorder(BorderFactory.createTitledBorder("I/O System Device"));
 
