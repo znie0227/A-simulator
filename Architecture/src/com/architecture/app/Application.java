@@ -77,6 +77,7 @@ public class Application {
 		}
 		resetMemory();
 		resetDevices();
+		CPU.resetCacheValue();
 	}
 
 	public static void resetRegisters(String name) {

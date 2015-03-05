@@ -1,5 +1,7 @@
 package com.architecture.device;
 
+import com.architecture.view.IOSystemPrinterPanel;
+
 public class ConsolePrinter extends Device {
 
 	private static StringBuilder sb = new StringBuilder();
@@ -22,6 +24,7 @@ public class ConsolePrinter extends Device {
 	public void reset() {
 		// TODO Auto-generated method stub
 		sb=new StringBuilder();
+		IOSystemPrinterPanel.reset();
 	}
 
 	@Override
