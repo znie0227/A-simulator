@@ -39,7 +39,7 @@ public class CPU {
 	
 	private Cache memory = Cache.getInstance();
 	
-	private int cacheLocation=0;
+	private static int cacheLocation=0;
 
 	public static CPU getInstance() {
 		if (instance == null) {
@@ -678,6 +678,10 @@ public class CPU {
 //			memory = Memory.getInstance();
 		}
 			
+	}
+
+	public static void resetCacheValue() {
+		cacheLocation=0;
 	}
 
 }

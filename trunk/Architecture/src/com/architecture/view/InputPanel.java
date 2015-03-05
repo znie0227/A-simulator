@@ -40,23 +40,18 @@ public class InputPanel extends JPanel {
 	public InputPanel() {
 		this.setLayout(null);
 		AbstractButton inputPanel;
-		this.setBorder(BorderFactory.createTitledBorder("Console Keyboard"));
+		this.setBorder(BorderFactory.createTitledBorder("Input Panel"));
 
 		
 		JScrollPane scroll = new JScrollPane(inputField); 
 		//把定义的JTextArea放到JScrollPane里面去 
 
-		//分别设置水平和垂直滚动条自动出现 
+		//设置滚动条自动出现 
 		scroll.setHorizontalScrollBarPolicy( 
 		JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED); 
 		scroll.setVerticalScrollBarPolicy( 
 		JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED); 
 
-		//分别设置水平和垂直滚动条总是出现 
-//		scroll.setHorizontalScrollBarPolicy( 
-//		JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS); 
-//		scroll.setVerticalScrollBarPolicy( 
-//		JScrollPane.VERTICAL_SCROLLBAR_ALWAYS); 
 		
 		inputField.setLayout(null);
 		inputField.setLineWrap(true);

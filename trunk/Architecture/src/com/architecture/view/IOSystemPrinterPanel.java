@@ -156,5 +156,10 @@ public class IOSystemPrinterPanel extends JPanel {
 	public static void writeToPrinter(String msg){
 		outputField.setText(outputField.getText()+msg);
 	}
+	
+	public static void reset(){
+		outputField.setText("");
+	}
 
+	
 }
