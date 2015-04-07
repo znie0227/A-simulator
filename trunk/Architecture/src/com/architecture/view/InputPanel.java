@@ -1,6 +1,7 @@
 package com.architecture.view;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
@@ -15,8 +16,10 @@ import java.util.List;
 
 import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
@@ -40,6 +43,10 @@ public class InputPanel extends JPanel {
 	private JButton Power = new JButton("PowerOn");
 
 	private JButton singleStep = new JButton("Single Step");
+	
+	private JRadioButton editer;
+	private JRadioButton program1;
+	private ButtonGroup group = new ButtonGroup();
 
 	private List<String> instrList = new ArrayList<String>();
 
@@ -62,13 +69,19 @@ public class InputPanel extends JPanel {
 
 		inputField.setLayout(null);
 		inputField.setLineWrap(true);
+		
+		editer=new JRadioButton("Editer",true);
+		program1=new JRadioButton("Program 1");
+		
+	    group.add(editer);
+	    group.add(program1);
 
 		// this.add(inputField);
-		scroll.setSize(250, 150);
-		scroll.setLocation(22, 82);
+		scroll.setSize(250, 130);
+		scroll.setLocation(22, 102);
 		this.add(scroll);
-		inputField.setSize(250, 150);
-		inputField.setLocation(22, 82);
+		inputField.setSize(250, 130);
+		inputField.setLocation(22, 102);
 		inputField.setLineWrap(true);// multiple lines
 		clear.setSize(70, 20);
 		clear.setLocation(150, 50);
@@ -80,10 +93,17 @@ public class InputPanel extends JPanel {
 		singleStep.setSize(110, 20);
 		singleStep.setLocation(150, 20);
 		singleStep.setEnabled(false);
+		editer.setSize(110,20);
+		editer.setLocation(22,80);
+		program1.setSize(110,20);
+		program1.setLocation(150,80);
+		
 		this.add(clear);
 		this.add(IPL);
 		this.add(Power);
 		this.add(singleStep);
+		this.add(editer);
+		this.add(program1);
 
 		this.setVisible(true);
 
