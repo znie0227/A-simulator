@@ -2,19 +2,20 @@ package com.architecture.app;
 
 import java.awt.Color;
 
+import com.architecture.device.CardReader;
 import com.architecture.device.ConsoleKeyboard;
 import com.architecture.device.ConsolePrinter;
 import com.architecture.device.Device;
 import com.architecture.exception.IllegalMemoryAddressException;
 import com.architecture.model.Log;
 import com.architecture.model.Memory;
-import com.architecture.model.Word;
 import com.architecture.util.Config;
 import com.architecture.util.Constants;
+import com.architecture.util.MachineState;
 import com.architecture.util.Utils;
 import com.architecture.view.IOSystemPrinterPanel;
+import com.architecture.view.InputPanel;
 
-	
 public class CPU {
 
 	private static CPU instance;
@@ -36,10 +37,12 @@ public class CPU {
 	private Thread thread;
 
 	public static int keyEvent = -1;
-	
+
 	private Cache memory = Cache.getInstance();
-	
-	private static int cacheLocation=0;
+
+	private static int cacheLocation = 0;
+
+	private InputPanel inputPanel;
 
 	public static CPU getInstance() {
 		if (instance == null) {
@@ -48,7 +51,8 @@ public class CPU {
 		return instance;
 	}
 
-	public void executeComplete(int instructionLength) {
+	public void executeComplete(int instructionLength, InputPanel inputPanel) {
+		this.inputPanel = inputPanel;
 		thread = new Thread() {
 
 			@Override
@@ -56,12 +60,16 @@ public class CPU {
 				// TODO Auto-generated method stub
 				super.run();
 				for (int i = 0; i < instructionLength; i++) {
-					execute();
-					try {
-						Thread.sleep(100);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+					if (MachineState.machineStopped == false) {
+						execute();
+						try {
+							Thread.sleep(100);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					} else {
+						break;
 					}
 				}
 			}
@@ -86,22 +94,26 @@ public class CPU {
 		Log.d("move PC to MAR:"
 				+ Application.getRegisterByName("MAR").getDataInString());
 		// Fetch the next instruction from the memory and load it into the MDR
-		
+
 		try {
-			if (cacheLocation<Config.CACHELINE_CAPACITY*Config.CACHELINE_SIZE) {
-			Cache.getInstance().write(cacheLocation, Memory.getInstance().read(Application.getRegisterByName("MAR")
-											.getDecData()));
+			if (cacheLocation < Config.CACHELINE_CAPACITY
+					* Config.CACHELINE_SIZE) {
+				Cache.getInstance().write(
+						cacheLocation,
+						Memory.getInstance().read(
+								Application.getRegisterByName("MAR")
+										.getDecData()));
 			}
 			cacheLocation++;
-			if (cacheLocation>=Config.CACHELINE_CAPACITY*Config.CACHELINE_SIZE) {
-				cacheLocation=0;
+			if (cacheLocation >= Config.CACHELINE_CAPACITY
+					* Config.CACHELINE_SIZE) {
+				cacheLocation = 0;
 			}
 		} catch (IllegalMemoryAddressException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-						
-		
+
 		Application.getRegisterByName("MDR")
 				.setData(
 						Memory.getInstance()
@@ -602,6 +614,9 @@ public class CPU {
 						.requestFocus();
 				IOSystemPrinterPanel.getInstance().getLinkToKeyboardBox()
 						.setBackground(Color.GREEN);
+			} else if (device instanceof CardReader) {
+				
+break;
 			}
 			System.out.println(keyEvent);
 			keyEvent = -1;
@@ -626,7 +641,7 @@ public class CPU {
 						.setFocusable(false);
 				IOSystemPrinterPanel.getInstance().getLinkToKeyboardBox()
 						.setBackground(null);
-				device.write((char)keyEvent+"");
+				device.write((char) keyEvent + "");
 			}
 
 			// device.write(msg);
@@ -636,14 +651,14 @@ public class CPU {
 			// Output Character to Device from Register, r = 0..3
 
 			registerName = "R" + Utils.getDecimalFromBin(rfi);
-			
+
 			device = Device.getDevice(Utils.getDecimalFromBin(address));
-			
+
 			int ascii = Application.getRegisterByName(registerName)
 					.getDecData();
 			if (ascii >= 0 && ascii <= 128 && device instanceof ConsolePrinter) {
 				IOSystemPrinterPanel.writeToPrinter((char) ascii + "");
-				device.write((char)ascii+"");
+				device.write((char) ascii + "");
 			}
 
 			// }
@@ -654,9 +669,15 @@ public class CPU {
 			// c(r) <- device status
 			registerName = "R" + Utils.getDecimalFromBin(rfi);
 			device = Device.getDevice(Utils.getDecimalFromBin(address));
-			Application.getRegisterByName(registerName).setDataByDec(device.read());
-			System.out.println("chk:"+device.read());
+			Application.getRegisterByName(registerName).setDataByDec(
+					device.read());
+			System.out.println("chk:" + device.read());
 			break;
+		case 0:
+			// HLT
+			MachineState.machineStopped=true;
+			inputPanel.powerOff();
+			Log.d("Halt");
 		}
 	}
 
@@ -665,23 +686,24 @@ public class CPU {
 		Application.getRegisterByName("PC").setDataByDec(currentPCPos + 1);
 		Log.d("PC <- PC + 1 (PC Increment)");
 	}
-	
+
 	/**
 	 * enable or disable Cache
+	 * 
 	 * @param enable
 	 */
-	public void setCahceEnable(boolean enable){
-		if(enable){
+	public void setCahceEnable(boolean enable) {
+		if (enable) {
 			memory = Cache.getInstance();
 			Cache.getInstance().clear();
-		}else{
-//			memory = Memory.getInstance();
+		} else {
+			// memory = Memory.getInstance();
 		}
-			
+
 	}
 
 	public static void resetCacheValue() {
-		cacheLocation=0;
+		cacheLocation = 0;
 	}
 
 }
