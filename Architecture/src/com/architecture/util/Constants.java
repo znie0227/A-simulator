@@ -1,5 +1,6 @@
 package com.architecture.util;
 
+
 /**
  * @author BaoBao_iOZ
  * 
@@ -14,4 +15,7 @@ public class Constants {
 	public static final int CPU_STATE_FINISHED=1002;
 	
 	public static final int OCTAL_10=8;
+	
+	public static float FLOAT_MAX = Utils.getFloatValueFrom16bit(Utils.getIntArrayFromString("111111110000000000"));
+	public static float FLOAT_MIN = Utils.getFloatValueFrom16bit(Utils.getIntArrayFromString("011111110000000000"));
 }

@@ -27,4 +27,6 @@ public class Config {
 //	public static final int CRR_SIZE=16;
 	public static final int LRR_SIZE=16;
 	
+	public static final int FR_SIZE=16;
+	
 }
