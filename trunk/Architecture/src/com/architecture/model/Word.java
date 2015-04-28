@@ -5,7 +5,7 @@ import com.architecture.util.Utils;
 
 public class Word {
 
-	private int[] data;
+	public int[] data;
 
 	public Word() {
 		data = new int[Config.WORD_SIZE];
@@ -22,6 +22,15 @@ public class Word {
 
 	public int[] getData() {
 		return data;
+	}
+	
+	public Word(float value) {
+		data = new int[Config.WORD_SIZE];
+		this.setValue(value);
+	}
+	
+	public void setValue(float value){
+		this.setValue(Utils.get16bitFromFloatValue(value));
 	}
 
 	public String getDataInString() {
