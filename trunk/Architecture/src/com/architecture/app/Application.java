@@ -59,6 +59,9 @@ public class Application {
 		addRegister("SRR", Config.SRR_SIZE);
 		// addRegister("CRR", Config.MDR_SIZE);
 		addRegister("LRR", Config.LRR_SIZE);
+		
+		addRegister("FR0", Config.FR_SIZE);
+		addRegister("FR1", Config.FR_SIZE);
 
 	}
 
@@ -78,6 +81,8 @@ public class Application {
 		resetMemory();
 		resetDevices();
 		CPU.resetCacheValue();
+		CPU.fileReadCounter=0;
+		CPU.programCounter=1;
 	}
 
 	public static void resetRegisters(String name) {
