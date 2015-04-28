@@ -99,5 +99,12 @@ public class Register {
 	public void setSize(int size) {
 		this.size = size;
 	}
+	
+	public void setValueByFloat(float floatValue) {
+		int[] fData = Utils.get16bitFromFloatValue(floatValue);
+		for(int i=0;i<18;i++)
+			data[i] = fData[i];
+	}
+	
 
 }
